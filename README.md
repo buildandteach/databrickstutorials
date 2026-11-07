@@ -12,3 +12,15 @@ Each lesson folder includes a 1–2 page cheat sheet, linked in the table below.
 | [02 Clean and transform with PySpark](lessons/associate-fundamentals/02-clean-transform-pyspark/) | [PDF](lessons/associate-fundamentals/02-clean-transform-pyspark/cheatsheet.pdf) | `select`, `filter`, null handling, `withColumn`, and a `mode("error")` Delta write |
 
 Open each lesson README for Free Edition setup. Lesson 01 uses fictional customers and orders in `byte_delta_demo_20261106`. Lesson 02 uses eight fictional orders and writes a new `bt_clean_orders_<suffix>` schema.
+
+## Shorts
+
+Each published Short has its own one-page cheat sheet. A Short sheet is the video's definition and example, not a summary of a long lesson. Future Shorts need a sheet too: add it in [`cheatsheets/generate_short_cheatsheets.py`](cheatsheets/generate_short_cheatsheets.py), run that script from the repository root, commit `shorts/<topic>/cheatsheet.pdf`, and add a row to this table.
+
+| Short | Video | Cheat sheet |
+|---|---|---|
+| What is a lakehouse? | [youtube.com/shorts/LB9BbsPiJX0](https://youtube.com/shorts/LB9BbsPiJX0) | [PDF](shorts/lakehouse/cheatsheet.pdf) |
+| What is Databricks? | [youtube.com/shorts/P2MW-ws3pUQ](https://youtube.com/shorts/P2MW-ws3pUQ) | [PDF](shorts/databricks/cheatsheet.pdf) |
+| What is Delta Lake? | [youtube.com/shorts/Wh7SJFTdJWs](https://youtube.com/shorts/Wh7SJFTdJWs) | [PDF](shorts/delta-lake/cheatsheet.pdf) |
+| What is a Spark DataFrame? | [youtube.com/shorts/qQPjfrxBsRI](https://youtube.com/shorts/qQPjfrxBsRI) | [PDF](shorts/dataframe/cheatsheet.pdf) |
+| What is a Databricks notebook? | [youtube.com/shorts/JlCLoWxcSg8](https://youtube.com/shorts/JlCLoWxcSg8) | [PDF](shorts/notebook/cheatsheet.pdf) |
