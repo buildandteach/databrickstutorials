@@ -13,6 +13,9 @@ PDF, and link it from the lesson README and the root lesson index.
 
 The sheets are quick-reference snippets and check values taken from the
 lesson notebooks. They are not full scripts.
+
+Published Shorts use ``cheatsheets/generate_short_cheatsheets.py`` instead.
+Each Short gets its own one-page PDF. Do not fold a Short into these lesson sheets.
 """
 
 from __future__ import annotations
