@@ -94,12 +94,19 @@ A `DOUBLE` amount can display as `42.5`. The sample note on each order is still 
 
 The orders cell is the starter. The stretch, which you write yourself, is to update one amount, capture that table's pre-update version in a Python variable, and compare it with `VERSION AS OF`.
 
+## Cheat sheet
+
+[cheatsheet.pdf](cheatsheet.pdf) is the one-to-two page quick reference for this lesson: safe-write rules, the sample rows, the pre-update version variable, and the time-travel check. It is not a substitute for the notebook.
+
+Regenerate it from the repository root with `python3 cheatsheets/generate_cheatsheets.py`. Every lesson in this track needs a matching PDF, linked here and from the root lesson index.
+
 ## Files
 
 | File | Role |
 |---|---|
 | `first_delta_lake_table.ipynb` | Authoritative notebook. Import this into Free Edition |
 | `first_delta_lake_table.py` | Same notebook as Databricks source, for import or diff |
+| [cheatsheet.pdf](cheatsheet.pdf) | Printable quick reference |
 | `README.md` | This setup guide |
 
 ## Validation
