@@ -10,8 +10,9 @@ Each lesson folder includes a 1–2 page cheat sheet, linked in the table below.
 |---|---|---|
 | [01 First Delta Lake table](lessons/associate-fundamentals/01-first-delta-lake-table/) | [PDF](lessons/associate-fundamentals/01-first-delta-lake-table/cheatsheet.pdf) | Managed Delta tables, SQL and PySpark reads, `UPDATE`, `DESCRIBE HISTORY`, and time travel |
 | [02 Clean and transform with PySpark](lessons/associate-fundamentals/02-clean-transform-pyspark/) | [PDF](lessons/associate-fundamentals/02-clean-transform-pyspark/cheatsheet.pdf) | `select`, `filter`, null handling, `withColumn`, and a `mode("error")` Delta write |
+| [03 Join and aggregate with PySpark](lessons/associate-fundamentals/03-join-aggregate-pyspark/) | [PDF](lessons/associate-fundamentals/03-join-aggregate-pyspark/cheatsheet.pdf) | Inner and left joins, join grain, and a `mode("error")` region summary |
 
-Open each lesson README for Free Edition setup. Lesson 01 uses fictional customers and orders in `byte_delta_demo_20261106`. Lesson 02 uses eight fictional orders and writes a new `bt_clean_orders_<suffix>` schema.
+Open each lesson README for Free Edition setup. Lesson 01 uses fictional customers and orders in `byte_delta_demo_20261106`. Lesson 02 uses eight fictional orders and writes a new `bt_clean_orders_<suffix>` schema. Lesson 03 uses four customers and six orders and writes a new `bt_joins_<suffix>` schema. Lesson 03's PDF is the supplied finished sheet; its generator source was not in the companion package.
 
 ## Shorts
 
