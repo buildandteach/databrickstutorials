@@ -24,3 +24,5 @@ Each published Short has its own one-page cheat sheet. A Short sheet is the vide
 | What is Delta Lake? | [youtube.com/shorts/Wh7SJFTdJWs](https://youtube.com/shorts/Wh7SJFTdJWs) | [PDF](shorts/delta-lake/cheatsheet.pdf) |
 | What is a Spark DataFrame? | [youtube.com/shorts/qQPjfrxBsRI](https://youtube.com/shorts/qQPjfrxBsRI) | [PDF](shorts/dataframe/cheatsheet.pdf) |
 | What is a Databricks notebook? | [youtube.com/shorts/JlCLoWxcSg8](https://youtube.com/shorts/JlCLoWxcSg8) | [PDF](shorts/notebook/cheatsheet.pdf) |
+| What are ACID transactions? | Coming soon (pending review) | [PDF](shorts/acid-transactions/cheatsheet.pdf) |
+| What is Apache Spark? | Coming soon (pending review) | [PDF](shorts/apache-spark/cheatsheet.pdf) |
