@@ -443,6 +443,90 @@ print(value + 1)
             "Free Edition",
         ],
     },
+    {
+        "slug": "acid-transactions",
+        "label": "ACID Transactions",
+        "video_url": "Short coming soon on youtube.com/@buildandteach",
+        "kicker": "SHORT  ·  ACID TRANSACTIONS",
+        "title": "What are ACID transactions?",
+        "definition": (
+            "A transaction is a change to your data that counts as one unit. "
+            "ACID is four promises that keep that change safe."
+        ),
+        "points": [
+            "Atomicity means all or nothing.",
+            "Consistency means the table keeps its rules.",
+            "Isolation means readers never see a half-finished write.",
+            "Durability means a committed change stays saved.",
+            "Delta tables give you ACID by default.",
+        ],
+        "example_note": (
+            "Create a small orders table, insert two rows, then update one order to shipped. "
+            "In Databricks Free Edition, click New, then Notebook, and run each cell with Shift + Enter. "
+            "No live output is recorded here."
+        ),
+        "code": """
+CREATE TABLE orders (id INT, status STRING);
+
+INSERT INTO orders VALUES (1, 'new'), (2, 'new');
+
+UPDATE orders SET status = 'shipped' WHERE id = 1;
+""",
+        "misconception": (
+            "ACID does not mean a change can never fail. If that update failed partway through, "
+            "no partial change would be kept. Anyone reading the table sees the old version or the new one, never a mix."
+        ),
+        "remember": "With ACID, every change lands completely, or not at all.",
+        "free_note": "The Short says you can try this in a notebook in Databricks Free Edition.",
+        "required": [
+            "What are ACID transactions?",
+            "Atomicity",
+            "UPDATE orders",
+            "Shift + Enter",
+            "Free Edition",
+        ],
+    },
+    {
+        "slug": "apache-spark",
+        "label": "Apache Spark",
+        "video_url": "Short coming soon on youtube.com/@buildandteach",
+        "kicker": "SHORT  ·  APACHE SPARK",
+        "title": "What is Apache Spark?",
+        "definition": (
+            "Apache Spark is an engine for processing data. It splits a big job into small tasks "
+            "and runs them in parallel across many machines."
+        ),
+        "points": [
+            "Think of counting a huge stack of receipts. Ten people each count one pile, then add their totals together.",
+            "In Databricks Free Edition, Spark is ready for you. Click New, then Notebook, and run a cell with Shift + Enter.",
+            "You write Python or SQL. Spark plans the work and runs it.",
+            "Every DataFrame you use in Databricks is processed by Spark.",
+        ],
+        "example_note": (
+            "Create a range of one million numbers with spark.range, then call count. "
+            "Spark splits the numbers into partitions and counts them in parallel. "
+            "The expected result is a comment, not a recorded printout."
+        ),
+        "code": """
+numbers = spark.range(1000000)
+numbers.count()
+
+# Expected result: 1000000
+""",
+        "misconception": (
+            "You do not install or start Spark yourself in Databricks, and Spark is not a separate language "
+            "you must learn first. You write Python or SQL. Spark plans the work and runs it."
+        ),
+        "remember": "Spark splits big data work into pieces and runs them in parallel.",
+        "free_note": "The Short says Spark is ready for you in Databricks Free Edition.",
+        "required": [
+            "What is Apache Spark?",
+            "spark.range(1000000)",
+            "numbers.count()",
+            "Shift + Enter",
+            "Free Edition",
+        ],
+    },
 ]
 
 

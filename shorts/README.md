@@ -17,3 +17,5 @@ Future Shorts need a sheet too. Add the topic in that script, run it, commit `sh
 | What is Delta Lake? | [youtube.com/shorts/Wh7SJFTdJWs](https://youtube.com/shorts/Wh7SJFTdJWs) | [PDF](delta-lake/cheatsheet.pdf) |
 | What is a Spark DataFrame? | [youtube.com/shorts/qQPjfrxBsRI](https://youtube.com/shorts/qQPjfrxBsRI) | [PDF](dataframe/cheatsheet.pdf) |
 | What is a Databricks notebook? | [youtube.com/shorts/JlCLoWxcSg8](https://youtube.com/shorts/JlCLoWxcSg8) | [PDF](notebook/cheatsheet.pdf) |
+| What are ACID transactions? | Coming soon (pending review) | [PDF](acid-transactions/cheatsheet.pdf) |
+| What is Apache Spark? | Coming soon (pending review) | [PDF](apache-spark/cheatsheet.pdf) |
