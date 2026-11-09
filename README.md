@@ -11,10 +11,10 @@ Each lesson folder includes a 1–2 page cheat sheet, linked in the table below.
 | [01 First Delta Lake table](lessons/associate-fundamentals/01-first-delta-lake-table/) | [PDF](lessons/associate-fundamentals/01-first-delta-lake-table/cheatsheet.pdf) | Managed Delta tables, SQL and PySpark reads, `UPDATE`, `DESCRIBE HISTORY`, and time travel |
 | [02 Clean and transform with PySpark](lessons/associate-fundamentals/02-clean-transform-pyspark/) | [PDF](lessons/associate-fundamentals/02-clean-transform-pyspark/cheatsheet.pdf) | `select`, `filter`, null handling, `withColumn`, and a `mode("error")` Delta write |
 | [03 Join and aggregate with PySpark](lessons/associate-fundamentals/03-join-aggregate-pyspark/) | [PDF](lessons/associate-fundamentals/03-join-aggregate-pyspark/cheatsheet.pdf) | Inner and left joins, join grain, and a `mode("error")` region summary |
-| [04 Ingest files with Auto Loader](lessons/associate-fundamentals/04-autoloader-ingestion/) | [PDF](lessons/associate-fundamentals/04-autoloader-ingestion/cheatsheet.pdf) | Incremental CSV ingestion into one bronze Delta table |
-| [05 Query and analyze with PySpark, part 1 of 3](lessons/associate-fundamentals/05-query-analyze-pyspark-part1/) | [PDF](lessons/associate-fundamentals/05-query-analyze-pyspark-part1/cheatsheet.pdf) | Select, filter, derived columns, and nulls. Read-only |
-| [06 Query and analyze with PySpark, part 2 of 3](lessons/associate-fundamentals/06-query-analyze-pyspark-part2/) | [PDF](lessons/associate-fundamentals/06-query-analyze-pyspark-part2/cheatsheet.pdf) | `groupBy`, aggregations, and window functions. Read-only |
-| [07 Query and analyze with PySpark, part 3 of 3](lessons/associate-fundamentals/07-query-analyze-pyspark-part3/) | [PDF](lessons/associate-fundamentals/07-query-analyze-pyspark-part3/cheatsheet.pdf) | Spark SQL, then one `mode("error")` summary table |
+| [04 Ingest files with Auto Loader](lessons/associate-fundamentals/04-autoloader-ingestion/) · [video](https://youtu.be/4HEnm4xL1_0) | [PDF](lessons/associate-fundamentals/04-autoloader-ingestion/cheatsheet.pdf) | Incremental CSV ingestion into one bronze Delta table |
+| [05 Query and analyze with PySpark, part 1 of 3](lessons/associate-fundamentals/05-query-analyze-pyspark-part1/) · [video](https://youtu.be/Wh3oLjesxTc) | [PDF](lessons/associate-fundamentals/05-query-analyze-pyspark-part1/cheatsheet.pdf) | Select, filter, derived columns, and nulls. Read-only. [Short](shorts/select-filter-nulls/) |
+| [06 Query and analyze with PySpark, part 2 of 3](lessons/associate-fundamentals/06-query-analyze-pyspark-part2/) · [video](https://youtu.be/H3Et0gWCnek) | [PDF](lessons/associate-fundamentals/06-query-analyze-pyspark-part2/cheatsheet.pdf) | `groupBy`, aggregations, and window functions. Read-only. [Short](shorts/groupby-aggregations/) |
+| [07 Query and analyze with PySpark, part 3 of 3](lessons/associate-fundamentals/07-query-analyze-pyspark-part3/) · [video](https://youtu.be/sqNHVjQdz9M) | [PDF](lessons/associate-fundamentals/07-query-analyze-pyspark-part3/cheatsheet.pdf) | Spark SQL, then one `mode("error")` summary table. [Short](shorts/spark-sql-delta/) |
 
 Lessons 05–07 are one series, Query and Analyze Data with PySpark. Parts 1 and 2 only read the in-memory sample. Part 3 writes a new `bt_query_<suffix>` schema.
 
@@ -33,5 +33,8 @@ Each published Short has its own one-page cheat sheet. A Short sheet is the vide
 | What is a Databricks notebook? | [youtube.com/shorts/JlCLoWxcSg8](https://youtube.com/shorts/JlCLoWxcSg8) | [PDF](shorts/notebook/cheatsheet.pdf) |
 | What are ACID transactions? | Coming soon (pending review) | [PDF](shorts/acid-transactions/cheatsheet.pdf) |
 | What is Apache Spark? | Coming soon (pending review) | [PDF](shorts/apache-spark/cheatsheet.pdf) |
-| Delta Lake vs. Parquet | Coming soon (pending review) | [PDF](shorts/delta-vs-parquet/cheatsheet.pdf) |
-| What is a data lake? | Coming soon (pending review) | [PDF](shorts/data-lake/cheatsheet.pdf) |
+| Delta Lake vs. Parquet | [youtube.com/shorts/OHsaXYJfSVk](https://youtube.com/shorts/OHsaXYJfSVk) | [PDF](shorts/delta-vs-parquet/cheatsheet.pdf) |
+| What is a data lake? | [youtube.com/shorts/yM5bQyyQkx4](https://youtube.com/shorts/yM5bQyyQkx4) | [PDF](shorts/data-lake/cheatsheet.pdf) |
+| Select and filter rows in PySpark | [youtu.be/Wh3oLjesxTc](https://youtu.be/Wh3oLjesxTc) | [PDF](shorts/select-filter-nulls/cheatsheet.pdf) |
+| groupBy aggregations in PySpark | [youtu.be/H3Et0gWCnek](https://youtu.be/H3Et0gWCnek) | [PDF](shorts/groupby-aggregations/cheatsheet.pdf) |
+| Spark SQL and a safe Delta write | [youtu.be/sqNHVjQdz9M](https://youtu.be/sqNHVjQdz9M) | [PDF](shorts/spark-sql-delta/cheatsheet.pdf) |

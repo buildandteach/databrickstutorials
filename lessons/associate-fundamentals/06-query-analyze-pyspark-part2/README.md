@@ -2,6 +2,10 @@
 
 Associate fundamentals lesson for **Databricks Free Edition**. This part aggregates with `groupBy` and ranks rows with window functions. It uses the same fictional orders as part 1. Part 3 continues in SQL.
 
+Video: [youtu.be/H3Et0gWCnek](https://youtu.be/H3Et0gWCnek)
+
+Short cheat sheet: [groupBy aggregations](../../../shorts/groupby-aggregations/)
+
 ## Sample data only
 
 The notebook rebuilds the eight invented orders. Six rows have both a quantity and a price. There is no download and no real personal data.

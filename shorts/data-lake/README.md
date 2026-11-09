@@ -1,6 +1,6 @@
 # What is a data lake?
 
-Short: coming soon (pending review). This page will link the video once it is published.
+Published Short: [youtube.com/shorts/yM5bQyyQkx4](https://youtube.com/shorts/yM5bQyyQkx4)
 
 One-page reference: [cheatsheet.pdf](cheatsheet.pdf)
 

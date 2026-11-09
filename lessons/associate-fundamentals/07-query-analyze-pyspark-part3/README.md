@@ -2,6 +2,10 @@
 
 Associate fundamentals lesson for **Databricks Free Edition**. This part answers the part 1 and 2 questions in Spark SQL, then saves one new managed Delta summary.
 
+Video: [youtu.be/sqNHVjQdz9M](https://youtu.be/sqNHVjQdz9M)
+
+Short cheat sheet: [Spark SQL and a safe Delta write](../../../shorts/spark-sql-delta/)
+
 ## Sample data only
 
 The notebook rebuilds the same eight fictional orders. Six rows are valid. There is no download and no real personal data.
