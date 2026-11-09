@@ -2,6 +2,10 @@
 
 Associate fundamentals lesson for **Databricks Free Edition**. This part selects, filters, derives columns, and inspects nulls. Parts 2 and 3 continue the same fictional orders.
 
+Video: [youtu.be/Wh3oLjesxTc](https://youtu.be/Wh3oLjesxTc)
+
+Short cheat sheet: [select, filter, and nulls](../../../shorts/select-filter-nulls/)
+
 ## Sample data only
 
 Eight invented orders are built in the notebook. Two rows are missing a quantity or a price so null handling is visible. There is no download and no real personal data.

@@ -1,6 +1,6 @@
 # Delta Lake vs. Parquet
 
-Short: coming soon (pending review). This page will link the video once it is published.
+Published Short: [youtube.com/shorts/OHsaXYJfSVk](https://youtube.com/shorts/OHsaXYJfSVk)
 
 One-page reference: [cheatsheet.pdf](cheatsheet.pdf)
 

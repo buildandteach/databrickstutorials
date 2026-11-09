@@ -19,5 +19,8 @@ Future Shorts need a sheet too. Add the topic in that script, run it, commit `sh
 | What is a Databricks notebook? | [youtube.com/shorts/JlCLoWxcSg8](https://youtube.com/shorts/JlCLoWxcSg8) | [PDF](notebook/cheatsheet.pdf) |
 | What are ACID transactions? | Coming soon (pending review) | [PDF](acid-transactions/cheatsheet.pdf) |
 | What is Apache Spark? | Coming soon (pending review) | [PDF](apache-spark/cheatsheet.pdf) |
-| Delta Lake vs. Parquet | Coming soon (pending review) | [PDF](delta-vs-parquet/cheatsheet.pdf) |
-| What is a data lake? | Coming soon (pending review) | [PDF](data-lake/cheatsheet.pdf) |
+| Delta Lake vs. Parquet | [youtube.com/shorts/OHsaXYJfSVk](https://youtube.com/shorts/OHsaXYJfSVk) | [PDF](delta-vs-parquet/cheatsheet.pdf) |
+| What is a data lake? | [youtube.com/shorts/yM5bQyyQkx4](https://youtube.com/shorts/yM5bQyyQkx4) | [PDF](data-lake/cheatsheet.pdf) |
+| Select and filter rows in PySpark | [youtu.be/Wh3oLjesxTc](https://youtu.be/Wh3oLjesxTc) | [PDF](select-filter-nulls/cheatsheet.pdf) |
+| groupBy aggregations in PySpark | [youtu.be/H3Et0gWCnek](https://youtu.be/H3Et0gWCnek) | [PDF](groupby-aggregations/cheatsheet.pdf) |
+| Spark SQL and a safe Delta write | [youtu.be/sqNHVjQdz9M](https://youtu.be/sqNHVjQdz9M) | [PDF](spark-sql-delta/cheatsheet.pdf) |

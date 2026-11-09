@@ -2,6 +2,8 @@
 
 Associate fundamentals lesson for **Databricks Free Edition**. Small fictional CSV order files land in a Unity Catalog volume. Auto Loader ingests only new files into one managed bronze Delta table.
 
+Video: [youtu.be/4HEnm4xL1_0](https://youtu.be/4HEnm4xL1_0)
+
 ## Sample data only
 
 There is nothing to download. The notebook writes three tiny CSV files into a new demo volume. One quantity is the word `two`, so that row is rescued instead of failing the load. There is no real personal data.
