@@ -527,6 +527,94 @@ numbers.count()
             "Free Edition",
         ],
     },
+    {
+        "slug": "delta-vs-parquet",
+        "label": "Delta Lake vs. Parquet",
+        "video_url": "Short coming soon on youtube.com/@buildandteach",
+        "kicker": "SHORT  ·  DELTA LAKE VS. PARQUET",
+        "title": "Delta Lake vs. Parquet",
+        "definition": (
+            "Parquet is a file format. It stores data by column, so files stay small and reads are fast. "
+            "Delta Lake keeps those Parquet files and adds a transaction log called the delta log."
+        ),
+        "points": [
+            "A folder of Parquet files has no record of what changed.",
+            "In Delta, every write becomes a new version in the _delta_log folder.",
+            "That log gives you ACID transactions, schema enforcement, and time travel.",
+            "It also enables MERGE, UPDATE, and DELETE. Plain Parquet has no history and no safe updates.",
+        ],
+        "example_note": (
+            "Save a small range of numbers as a table, which is Delta by default. Delete one row, then run "
+            "DESCRIBE HISTORY to see both versions. In Databricks Free Edition, click New, then Notebook, "
+            "and run each cell with Shift + Enter. No live output is recorded here."
+        ),
+        "code": """
+df = spark.range(5)
+df.write.mode("overwrite").saveAsTable("nums")   # Delta by default
+
+spark.sql("DELETE FROM nums WHERE id = 0")
+display(spark.sql("DESCRIBE HISTORY nums"))      # version 0 and 1
+""",
+        "misconception": (
+            "Delta is not a different file format that replaces Parquet. The data is still Parquet files. "
+            "The transaction log on top is what makes it a reliable table."
+        ),
+        "remember": "Parquet stores the data, and Delta makes it a reliable table.",
+        "free_note": "The Short says you can try this in a notebook in Databricks Free Edition. No paid features are needed.",
+        "required": [
+            "Delta Lake vs. Parquet",
+            "_delta_log",
+            "DESCRIBE HISTORY",
+            "Shift + Enter",
+            "Free Edition",
+        ],
+    },
+    {
+        "slug": "data-lake",
+        "label": "Data Lake",
+        "video_url": "Short coming soon on youtube.com/@buildandteach",
+        "kicker": "SHORT  ·  DATA LAKE",
+        "title": "What is a data lake?",
+        "definition": (
+            "A data lake is cheap cloud storage that holds raw files in any format. "
+            "You store first and decide later."
+        ),
+        "points": [
+            "CSV, JSON, images, and logs can all sit side by side.",
+            "It is flexible and low cost, but a plain data lake has no built-in rules.",
+            "Nothing stops a bad file, and it is hard to know which version is correct.",
+            "That is why the lakehouse exists: Delta Lake and Unity Catalog add reliable tables "
+            "and governance on top of the same cheap storage.",
+        ],
+        "example_note": (
+            "Write a few rows as raw JSON files into a volume, then list them. You get files, but no table "
+            "and no history. In Databricks Free Edition, click New, then Notebook, and run each cell with "
+            "Shift + Enter. No live output is recorded here."
+        ),
+        "code": """
+spark.sql("CREATE VOLUME IF NOT EXISTS workspace.default.raw")
+path = "/Volumes/workspace/default/raw/rows"
+
+spark.range(3).write.mode("overwrite").json(path)
+display(dbutils.fs.ls(path))   # raw JSON files: no table, no history
+""",
+        "misconception": (
+            "A data lake is not the same as a lakehouse. The lake is the storage. "
+            "The lakehouse adds reliable tables and governance on top of it."
+        ),
+        "remember": "A data lake stores everything cheaply, and the lakehouse makes it reliable.",
+        "free_note": (
+            "The Short says you can try this in Databricks Free Edition, which includes the workspace catalog "
+            "and Unity Catalog volumes. No paid features are needed."
+        ),
+        "required": [
+            "What is a data lake?",
+            "CREATE VOLUME",
+            "dbutils.fs.ls",
+            "Shift + Enter",
+            "Free Edition",
+        ],
+    },
 ]
 
 
