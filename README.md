@@ -51,3 +51,4 @@ Each published Short has its own one-page cheat sheet. A Short sheet is the vide
 | Select and filter rows in PySpark | [youtube.com/shorts/PEDSIxOwqo4](https://youtube.com/shorts/PEDSIxOwqo4) | [PDF](shorts/select-filter-nulls/cheatsheet.pdf) |
 | groupBy aggregations in PySpark | [youtube.com/shorts/nzDoDiGYpdo](https://youtube.com/shorts/nzDoDiGYpdo) | [PDF](shorts/groupby-aggregations/cheatsheet.pdf) |
 | Spark SQL and a safe Delta write | [youtube.com/shorts/db0g-hUIFJc](https://youtube.com/shorts/db0g-hUIFJc) | [PDF](shorts/spark-sql-delta/cheatsheet.pdf) |
+| Choose Databricks Compute by Workload | Coming soon (pending review) | [PDF](shorts/compute-choice/cheatsheet.pdf) |
