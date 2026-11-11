@@ -1,6 +1,6 @@
 # What are ACID transactions?
 
-Short: coming soon (pending review). This page will link the video once it is published.
+Published Short: [youtube.com/shorts/gtamYg4ylX4](https://youtube.com/shorts/gtamYg4ylX4)
 
 One-page reference: [cheatsheet.pdf](cheatsheet.pdf)
 
