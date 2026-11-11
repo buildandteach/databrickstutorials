@@ -2,7 +2,7 @@
 
 Associate fundamentals lesson for **Databricks Free Edition**. This part saves the sample as managed tables, builds a region and category summary, and checks the stored totals.
 
-Video: coming soon.
+Video: [youtu.be/D_a9o4xdJtM](https://youtu.be/D_a9o4xdJtM)
 
 ## Sample data only
 
