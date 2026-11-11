@@ -1,6 +1,6 @@
 # Choose Databricks Compute by Workload
 
-Video: coming soon.
+Video: [youtu.be/jB1ayvonDas](https://youtu.be/jB1ayvonDas)
 
 Companion to [A01 Platform tour](../../lessons/associate-certification/a01-platform-tour/).
 

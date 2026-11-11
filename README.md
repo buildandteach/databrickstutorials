@@ -31,7 +31,7 @@ Daily lessons mapped to the August 2026 Databricks Certified Data Engineer Assoc
 
 | Lesson | Cheat sheet | What you practice | Video |
 |---|---|---|---|
-| [A01 Platform tour](lessons/associate-certification/a01-platform-tour/) | [PDF](lessons/associate-certification/a01-platform-tour/cheatsheet.pdf) | Control vs compute plane, Unity Catalog catalog.schema.table, a managed Delta table, DESCRIBE DETAIL/HISTORY, serverless notebook vs SQL warehouse, compute cost models | Coming soon (pending review) |
+| [A01 Platform tour](lessons/associate-certification/a01-platform-tour/) | [PDF](lessons/associate-certification/a01-platform-tour/cheatsheet.pdf) | Control vs compute plane, Unity Catalog catalog.schema.table, a managed Delta table, DESCRIBE DETAIL/HISTORY, serverless notebook vs SQL warehouse, compute cost models | [youtu.be/PglvHIK-QmU](https://youtu.be/PglvHIK-QmU) |
 
 ## Shorts
 
@@ -51,4 +51,4 @@ Each published Short has its own one-page cheat sheet. A Short sheet is the vide
 | Select and filter rows in PySpark | [youtube.com/shorts/PEDSIxOwqo4](https://youtube.com/shorts/PEDSIxOwqo4) | [PDF](shorts/select-filter-nulls/cheatsheet.pdf) |
 | groupBy aggregations in PySpark | [youtube.com/shorts/nzDoDiGYpdo](https://youtube.com/shorts/nzDoDiGYpdo) | [PDF](shorts/groupby-aggregations/cheatsheet.pdf) |
 | Spark SQL and a safe Delta write | [youtube.com/shorts/db0g-hUIFJc](https://youtube.com/shorts/db0g-hUIFJc) | [PDF](shorts/spark-sql-delta/cheatsheet.pdf) |
-| Choose Databricks Compute by Workload | Coming soon (pending review) | [PDF](shorts/compute-choice/cheatsheet.pdf) |
+| Choose Databricks Compute by Workload | [youtu.be/jB1ayvonDas](https://youtu.be/jB1ayvonDas) | [PDF](shorts/compute-choice/cheatsheet.pdf) |

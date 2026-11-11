@@ -24,4 +24,4 @@ Future Shorts need a sheet too. Add the topic in that script, run it, commit `sh
 | Select and filter rows in PySpark | [youtube.com/shorts/PEDSIxOwqo4](https://youtube.com/shorts/PEDSIxOwqo4) | [PDF](select-filter-nulls/cheatsheet.pdf) |
 | groupBy aggregations in PySpark | [youtube.com/shorts/nzDoDiGYpdo](https://youtube.com/shorts/nzDoDiGYpdo) | [PDF](groupby-aggregations/cheatsheet.pdf) |
 | Spark SQL and a safe Delta write | [youtube.com/shorts/db0g-hUIFJc](https://youtube.com/shorts/db0g-hUIFJc) | [PDF](spark-sql-delta/cheatsheet.pdf) |
-| Choose Databricks Compute by Workload | Coming soon (pending review) | [PDF](compute-choice/cheatsheet.pdf) |
+| Choose Databricks Compute by Workload | [youtu.be/jB1ayvonDas](https://youtu.be/jB1ayvonDas) | [PDF](compute-choice/cheatsheet.pdf) |

@@ -7,7 +7,7 @@ Exam relevance: *Databricks Certified Data Engineer Associate* exam guide (Augus
 - Understand the core components of the platform: architecture, Delta Lake and Unity Catalog.
 - Understand the compute services, their characteristics, limitations and cost models, and choose the right one for each workload.
 
-Video: coming soon (pending review).
+Video: [youtu.be/PglvHIK-QmU](https://youtu.be/PglvHIK-QmU)
 
 Recap: [Lesson 01, first Delta Lake table](../../associate-fundamentals/01-first-delta-lake-table/) covers time travel in more depth.
 
