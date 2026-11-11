@@ -25,6 +25,14 @@ Lessons 08–10 are one series, Query and Analyze Data with the Databricks SQL E
 
 Open each lesson README for Free Edition setup. Lesson 01 uses fictional customers and orders in `byte_delta_demo_20261106`. Lesson 02 uses eight fictional orders and writes a new `bt_clean_orders_<suffix>` schema. Lesson 03 uses four customers and six orders and writes a new `bt_joins_<suffix>` schema. Lesson 04 writes a new `bt_ingest_<suffix>` schema. Lessons 03–07 ship the supplied cheat-sheet PDFs; those companion packages did not include generator source for the lesson PDFs.
 
+## Associate certification series
+
+Daily lessons mapped to the August 2026 Databricks Certified Data Engineer Associate exam guide sections. Independent educational content, not affiliated with or endorsed by Databricks, and not an exam guarantee.
+
+| Lesson | Cheat sheet | What you practice | Video |
+|---|---|---|---|
+| [A01 Platform tour](lessons/associate-certification/a01-platform-tour/) | [PDF](lessons/associate-certification/a01-platform-tour/cheatsheet.pdf) | Control vs compute plane, Unity Catalog catalog.schema.table, a managed Delta table, DESCRIBE DETAIL/HISTORY, serverless notebook vs SQL warehouse, compute cost models | Coming soon (pending review) |
+
 ## Shorts
 
 Each published Short has its own one-page cheat sheet. A Short sheet is the video's definition and example, not a summary of a long lesson. Future Shorts need a sheet too: add it in [`cheatsheets/generate_short_cheatsheets.py`](cheatsheets/generate_short_cheatsheets.py), run that script from the repository root, commit `shorts/<topic>/cheatsheet.pdf`, and add a row to this table.
