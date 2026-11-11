@@ -1,6 +1,6 @@
 # What is Apache Spark?
 
-Short: coming soon (pending review). This page will link the video once it is published.
+Published Short: [youtube.com/shorts/Gv6Xpn_zwpY](https://youtube.com/shorts/Gv6Xpn_zwpY)
 
 One-page reference: [cheatsheet.pdf](cheatsheet.pdf)
 
