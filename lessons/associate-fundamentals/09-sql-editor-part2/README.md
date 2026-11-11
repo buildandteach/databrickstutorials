@@ -2,7 +2,7 @@
 
 Associate fundamentals lesson for **Databricks Free Edition**. This part practices `GROUP BY`, `HAVING`, joins, CTEs, and window functions. It uses the same eight fictional orders as part 1, plus a small customers list.
 
-Video: coming soon.
+Video: [youtu.be/Ak80Ui1nSFQ](https://youtu.be/Ak80Ui1nSFQ)
 
 ## Sample data only
 

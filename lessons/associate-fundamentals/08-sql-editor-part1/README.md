@@ -2,7 +2,7 @@
 
 Associate fundamentals lesson for **Databricks Free Edition**. This part practices `SELECT`, `WHERE`, `ORDER BY`, `CASE`, and nulls on eight fictional orders. Parts 2 and 3 continue the same sample.
 
-Video: coming soon.
+Video: [youtu.be/wDC8HrQTWms](https://youtu.be/wDC8HrQTWms)
 
 ## Sample data only
 
