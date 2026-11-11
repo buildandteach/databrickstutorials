@@ -24,7 +24,7 @@ The setup cell reads `current_catalog()` and creates a new schema named `bt_plat
 Use a **Python** notebook on **Serverless**. Run the 6 code cells from the top (the last one is the commented-out challenge solution).
 
 1. Home **New > Notebook**, select **Python** and **Serverless**, or import `platform_tour_a01.ipynb`.
-2. After cell 5, open **SQL Editor**, choose the workspace's one SQL warehouse (2X-Small in Free Edition), and run the query from the notebook's SQL warehouse section with the table name printed by cell 5.
+2. After cell 5, open the **Structured Query Language (SQL) Editor**, choose the workspace's one SQL warehouse (2X-Small in Free Edition), and run the query from the notebook's SQL warehouse section with the table name printed by cell 5.
 
 `platform_tour_a01.py` is the Databricks source form. The `.ipynb` is authoritative.
 
@@ -39,7 +39,7 @@ Use a **Python** notebook on **Serverless**. Run the 6 code cells from the top (
 
 ## Compute concepts (paid workspaces)
 
-Free Edition is serverless only. Classic all-purpose compute, jobs compute and instance pools are explained in the video and cheat sheet as concepts. Cost model: DBUs billed per second; classic compute also has cloud VM cost; jobs compute has a lower DBU rate than all-purpose; pools charge no DBUs while instances are idle (the cloud provider still bills them).
+Free Edition is serverless only. Classic all-purpose compute, jobs compute and instance pools are explained in the video and cheat sheet as concepts. Cost model: Databricks Units (DBUs) billed per second; classic compute also has cloud virtual machine (VM) cost; jobs compute has a lower DBU rate than all-purpose; pools charge no DBUs while instances are idle (the cloud provider still bills them).
 
 ## Practice
 
