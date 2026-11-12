@@ -1,6 +1,6 @@
 # Auto Loader: Load Only New Files
 
-Video: Coming soon (pending review).
+Video: [youtube.com/shorts/Bv2EzzZoSnI](https://youtube.com/shorts/Bv2EzzZoSnI)
 
 Companion to [Lesson 2, Ingestion Patterns](../../lessons/associate-certification/a02-ingestion-patterns/) in the Databricks Data Engineer Associate Series.
 
