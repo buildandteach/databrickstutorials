@@ -6,7 +6,7 @@ Exam relevance: *Databricks Certified Data Engineer Associate* exam guide (Augus
 
 - Enable and detail data ingestion patterns, including batch, streaming and incremental loading, and import data from sources such as local files, Lakeflow Connect standard connectors and Lakeflow Connect managed connectors.
 
-Video: coming soon (pending review).
+Video: [youtu.be/cLrBSH5DXIQ](https://youtu.be/cLrBSH5DXIQ)
 
 Previous lesson: [A01 Platform tour](../a01-platform-tour/). Related: [Lesson 04, Auto Loader ingestion](../../associate-fundamentals/04-autoloader-ingestion/) in the fundamentals series.
 

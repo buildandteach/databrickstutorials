@@ -32,7 +32,7 @@ Daily lessons mapped to the August 2026 Databricks Certified Data Engineer Assoc
 | Lesson | Cheat sheet | What you practice | Video |
 |---|---|---|---|
 | [A01 Platform tour](lessons/associate-certification/a01-platform-tour/) | [PDF](lessons/associate-certification/a01-platform-tour/cheatsheet.pdf) | Control vs compute plane, Unity Catalog catalog.schema.table, a managed Delta table, DESCRIBE DETAIL/HISTORY, serverless notebook vs SQL warehouse, compute cost models | [youtu.be/PglvHIK-QmU](https://youtu.be/PglvHIK-QmU) |
-| [A02 Ingestion patterns](lessons/associate-certification/a02-ingestion-patterns/) | [PDF](lessons/associate-certification/a02-ingestion-patterns/cheatsheet.pdf) | Batch, streaming and incremental loads, a managed volume, a batch overwrite, and Auto Loader append | Video coming soon |
+| [A02 Ingestion patterns](lessons/associate-certification/a02-ingestion-patterns/) | [PDF](lessons/associate-certification/a02-ingestion-patterns/cheatsheet.pdf) | Batch, streaming and incremental loads, a managed volume, a batch overwrite, and Auto Loader append | [youtu.be/cLrBSH5DXIQ](https://youtu.be/cLrBSH5DXIQ) |
 
 ## Shorts
 
@@ -53,4 +53,4 @@ Each published Short has its own one-page cheat sheet. A Short sheet is the vide
 | groupBy aggregations in PySpark | [youtube.com/shorts/nzDoDiGYpdo](https://youtube.com/shorts/nzDoDiGYpdo) | [PDF](shorts/groupby-aggregations/cheatsheet.pdf) |
 | Spark SQL and a safe Delta write | [youtube.com/shorts/db0g-hUIFJc](https://youtube.com/shorts/db0g-hUIFJc) | [PDF](shorts/spark-sql-delta/cheatsheet.pdf) |
 | Choose Databricks Compute by Workload | [youtu.be/jB1ayvonDas](https://youtu.be/jB1ayvonDas) | [PDF](shorts/compute-choice/cheatsheet.pdf) |
-| Auto Loader: Load Only New Files · [Lesson 2, Ingestion Patterns](lessons/associate-certification/a02-ingestion-patterns/) | Coming soon (pending review) | [PDF](shorts/auto-loader-checkpoint/cheatsheet.pdf) |
+| Auto Loader: Load Only New Files · [Lesson 2, Ingestion Patterns](lessons/associate-certification/a02-ingestion-patterns/) | [youtube.com/shorts/Bv2EzzZoSnI](https://youtube.com/shorts/Bv2EzzZoSnI) | [PDF](shorts/auto-loader-checkpoint/cheatsheet.pdf) |
