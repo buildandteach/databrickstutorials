@@ -22,8 +22,8 @@ The setup cell reads `current_catalog()` and creates a new schema named `bt_inge
 
 Use a **Python** notebook on **Serverless**. Run the code cells from the top.
 
-1. Home **New > Notebook**, select **Python** and **Serverless**, or import `ingestion_patterns_a02.ipynb`.
-2. Run all. Optional: open **Catalog > workspace > bt_ingest_... > Volumes > landing > orders** to see the two files.
+1. Home **New**, then **Notebook**, select **Python** and **Serverless**, or import `ingestion_patterns_a02.ipynb`.
+2. Run all. Optional: open **Catalog**, then **workspace**, then **bt_ingest_...**, then **Volumes**, then **landing**, then **orders** to see the two files.
 
 `ingestion_patterns_a02.py` is the Databricks source form. The `.ipynb` is authoritative.
 
@@ -44,7 +44,7 @@ Serverless notebooks and jobs support the `availableNow` trigger (and the deprec
 
 - **Standard connectors**: Spark and Structured Query Language (SQL) application programming interfaces (APIs) such as Auto Loader, `COPY INTO` and Structured Streaming (for example Kafka). More control; you maintain the logic. This notebook uses this pattern.
 - **Managed connectors**: a connection plus an ingestion pipeline configured in the workspace or API for sources like Salesforce, Workday, SharePoint or SQL Server. They need a real source system and credentials; database change data capture (CDC) connectors are paid-workspace features. Explained as concepts.
-- **Local files**: **New > Add or upload data > Create or modify table** for a one-time load, or upload files to a volume and read them with code.
+- **Local files**: **New**, then **Add or upload data**, then **Create or modify table** for a one-time load, or upload files to a volume and read them with code.
 
 ## Practice
 
@@ -67,6 +67,6 @@ A day 3 file with 4 new orders lands and both loads run again. Answer: `orders_b
 
 ## Validation
 
-The notebook and `.py` source compile, and the PDF has 2 pages. **No Free Edition cloud run has been recorded for this notebook yet**; the expected values above come from the notebook logic.
+The notebook and `.py` source compile, and the PDF has 2 pages. A Databricks Free Edition run was recorded on Nov 12, 2026, in schema `workspace.bt_ingest_49cc33eb5a03`. Observed results matched the table above: the batch load wrote 3 rows, then 5 after day 2; Auto Loader read 2 new rows; bronze held 5 rows; `orders_day1.csv` contributed 3 rows and `orders_day2.csv` contributed 2.
 
 Independent educational content; not affiliated with or endorsed by Databricks; no exam guarantee.
