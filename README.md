@@ -53,3 +53,4 @@ Each published Short has its own one-page cheat sheet. A Short sheet is the vide
 | groupBy aggregations in PySpark | [youtube.com/shorts/nzDoDiGYpdo](https://youtube.com/shorts/nzDoDiGYpdo) | [PDF](shorts/groupby-aggregations/cheatsheet.pdf) |
 | Spark SQL and a safe Delta write | [youtube.com/shorts/db0g-hUIFJc](https://youtube.com/shorts/db0g-hUIFJc) | [PDF](shorts/spark-sql-delta/cheatsheet.pdf) |
 | Choose Databricks Compute by Workload | [youtu.be/jB1ayvonDas](https://youtu.be/jB1ayvonDas) | [PDF](shorts/compute-choice/cheatsheet.pdf) |
+| Auto Loader: Load Only New Files · [Lesson 2, Ingestion Patterns](lessons/associate-certification/a02-ingestion-patterns/) | Coming soon (pending review) | [PDF](shorts/auto-loader-checkpoint/cheatsheet.pdf) |
