@@ -1,0 +1,68 @@
+{
+ "kind": "lesson",
+ "title": "A02 Ingestion patterns cheat sheet",
+ "subtitle": "ASSOCIATE SERIES \u00b7 A02 \u00b7 SECTION 2 INGESTION (21%) QUICK REFERENCE",
+ "pages": [
+  {
+   "title": "Batch \u00b7 incremental \u00b7 streaming",
+   "lede": [
+    "Section 2: ingestion patterns (batch, streaming, incremental), local files, Lakeflow Connect connectors.",
+    "Free Edition: serverless, Unity Catalog volumes, Auto Loader. Fictional orders only."
+   ],
+   "blocks": [
+    {
+     "heading": "1. Three patterns",
+     "code": "batch        spark.read ... load(src)        reads EVERY file, every run\nincremental  Auto Loader + checkpoint         only files not yet processed\nstreaming    same engine, runs continuously   the trigger decides how often",
+     "note": "Batch + append = duplicates on every rerun. Batch should overwrite."
+    },
+    {
+     "heading": "2. Landing zone: a Unity Catalog volume",
+     "code": "CREATE VOLUME workspace.bt_ingest_xxxxxxxxxxxx.landing;\n-- files: /Volumes/workspace/bt_ingest_xxxxxxxxxxxx/landing/orders/\ndbutils.fs.put(f\"{src}/orders_day1.csv\", day1)",
+     "note": "A volume stores files under Unity Catalog governance."
+    },
+    {
+     "heading": "3. Batch load (comma-separated values, CSV)",
+     "code": "df = (spark.read.format(\"csv\").option(\"header\", \"true\")\n        .schema(\"order_id INT, customer STRING, amount DOUBLE, order_date DATE\").load(src))\ndf.write.mode(\"overwrite\").saveAsTable(\"...orders_batch\")",
+     "note": "Day 1: 3 rows. Day 2: re-reads both files, 5 rows."
+    },
+    {
+     "heading": "4. Incremental load: Auto Loader",
+     "code": "(spark.readStream.format(\"cloudFiles\").option(\"cloudFiles.format\", \"csv\")\n   .option(\"header\", \"true\").schema(order_schema).load(src)\n   .withColumn(\"source_file\", col(\"_metadata.file_name\"))\n .writeStream.option(\"checkpointLocation\", ckpt)\n   .trigger(availableNow=True).toTable(\"...orders_bronze\"))",
+     "note": "Day 2 reads only orders_day2.csv (2 rows). The checkpoint loads each file once."
+    }
+   ]
+  },
+  {
+   "title": "Triggers, local files, Lakeflow Connect",
+   "blocks": [
+    {
+     "heading": "5. Triggers on serverless",
+     "code": "availableNow=True        process all new data, then stop   (serverless OK)\nonce=True                deprecated, still supported\nprocessingTime / continuous   NOT on serverless notebooks or jobs\n                         -> INFINITE_STREAMING_TRIGGER_NOT_SUPPORTED",
+     "note": "Always-on: a pipeline in continuous mode, or availableNow in a continuous job. Schedule incremental runs with Lakeflow Jobs."
+    },
+    {
+     "heading": "6. Local files",
+     "code": "New > Add or upload data > Create or modify table   one-time load -> managed Delta table\nCatalog > volume > Upload to this volume           keep files, read them with code",
+     "note": "Uploads suit small reference files, not data that keeps arriving."
+    },
+    {
+     "heading": "7. Lakeflow Connect connectors",
+     "code": "standard  Spark + Structured Query Language (SQL) application programming interfaces (APIs)\n          Auto Loader, COPY INTO, Structured Streaming (Kafka). You maintain the logic.\nmanaged   connection + ingestion pipeline, configured not coded. Software as a service\n          (SaaS) like Salesforce, Workday, SharePoint, or SQL Server databases.",
+     "note": "Managed: authentication, retries, schema changes handled. Free Edition: needs a real source; database change data capture (CDC) is paid-only. Concepts here."
+    },
+    {
+     "heading": "8. Scenario words",
+     "text": "Small, fully replaced, daily snapshot, one-time upload -> batch (overwrite). New files keep arriving, process only new data, never reprocess -> Auto Loader + checkpoint. Seconds or minutes latency -> streaming. Supported SaaS app or database -> managed connector."
+    },
+    {
+     "heading": "Practice challenge",
+     "text": "Day 3 adds 4 orders; run both loads. Answer: orders_batch 9 (overwrite); Auto Loader reads 4, bronze 9; if all three batch runs appended: 3 + 5 + 9 = 17 rows with duplicates."
+    }
+   ],
+   "disclaimer": [
+    "Data Engineer Associate exam guide (Aug 2026), Section 2. Independent education. No exam guarantee.",
+    "Not affiliated with or endorsed by Databricks. Fictional data. Previous: A01 youtu.be/PglvHIK-QmU"
+   ]
+  }
+ ]
+}
