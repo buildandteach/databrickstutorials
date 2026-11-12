@@ -1,0 +1,21 @@
+{
+ "kind": "short",
+ "label": "Auto Loader checkpoint",
+ "video_url": "Short coming soon on youtube.com/@buildandteach",
+ "kicker": "SHORT  ·  AUTO LOADER",
+ "title": "Auto Loader loads only new files",
+ "definition": "A batch load with spark.read reads every file in the source on every run. Auto Loader is the cloudFiles source in spark.readStream. Its checkpoint location records which files it has already processed, so each run loads only new files. With the availableNow trigger it processes everything new, then stops, and that trigger works on serverless compute.",
+ "points": [
+  "Batch re-reads all files every run. Use overwrite. Batch + append = duplicates on every rerun.",
+  "Auto Loader + checkpoint: each file is loaded once. Day 2 reads only orders_day2.csv, a comma-separated values (CSV) file with 2 rows.",
+  "trigger(availableNow=True): process all new data, then stop. Works on serverless notebooks and jobs.",
+  "processingTime and continuous triggers are NOT supported on serverless notebooks or jobs.",
+  "Scenario words: new files keep arriving, process only new data, never reprocess -> Auto Loader + checkpoint."
+ ],
+ "example_note": "A02 example, five fictional orders. Day 1 file: 3 rows. Day 2 file: 2 rows. Batch re-reads 5 rows, Auto Loader reads 2, bronze ends with 5.",
+ "code": "(spark.readStream.format(\"cloudFiles\")\n   .option(\"cloudFiles.format\", \"csv\").option(\"header\", \"true\")\n   .schema(order_schema).load(src)\n .writeStream.option(\"checkpointLocation\", ckpt)\n   .trigger(availableNow=True).toTable(\"...orders_bronze\"))",
+ "misconception": "Batch with append is not incremental loading. Every rerun appends every file again. In the A02 practice challenge, three appended batch runs give 3 + 5 + 9 = 17 rows full of duplicates. Only a checkpoint makes the load incremental.",
+ "memory_trick": "Batch re-reads, Auto Loader remembers. The checkpoint is its bookmark.",
+ "remember": "Batch re-reads, so overwrite. Auto Loader with a checkpoint loads each file exactly once.",
+ "free_note": "Validated in Databricks Free Edition on Nov 12, 2026: serverless notebook, Unity Catalog volume, Auto Loader with availableNow."
+}
