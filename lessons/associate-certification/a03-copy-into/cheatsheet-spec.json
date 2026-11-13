@@ -1,0 +1,65 @@
+{
+ "kind": "lesson",
+ "title": "A03 COPY INTO cheat sheet",
+ "subtitle": "ASSOCIATE EXAM PREP \u00b7 A03 \u00b7 SECTION 2 INGESTION (21%) \u00b7 COPY INTO QUICK REFERENCE",
+ "pages": [
+  {
+   "title": "A03 \u00b7 COPY INTO incremental loading",
+   "lede": [
+    "Objective: use COPY INTO to incrementally load files from cloud object storage into Unity Catalog governed tables.",
+    "Free Edition: a Unity Catalog volume is the source. Serverless notebook. Fictional orders only."
+   ],
+   "blocks": [
+    {
+     "heading": "1. What COPY INTO is",
+     "code": "COPY INTO target_table            -- must already exist (Delta)\nFROM 'path' | (SELECT ... FROM 'path')\nFILEFORMAT = CSV | JSON | PARQUET | AVRO | ORC | TEXT | BINARYFILE\n[VALIDATE ...] [FILES = (...) | PATTERN = '...'] [FORMAT_OPTIONS (...)] [COPY_OPTIONS (...)]",
+     "note": "Idempotent: files already loaded into THIS table are skipped, even if edited since."
+    },
+    {
+     "heading": "2. Typed table + COPY INTO from a volume",
+     "code": "CREATE TABLE orders_copy (order_id INT, customer STRING, amount DOUBLE,\n                          order_date DATE, source_file STRING);\nCOPY INTO orders_copy\nFROM (SELECT CAST(order_id AS INT) AS order_id, customer, CAST(amount AS DOUBLE) AS amount,\n             CAST(order_date AS DATE) AS order_date, _metadata.file_name AS source_file\n      FROM '/Volumes/workspace/bt_copyinto_xxxx/landing/orders')\nFILEFORMAT = CSV  FORMAT_OPTIONS ('header' = 'true');"
+    },
+    {
+     "heading": "3. Rerun = idempotent",
+     "code": "run 1  orders_day1.csv lands  -> num_inserted_rows 3, total 3\nrun 2  no new files           -> num_inserted_rows 0, total 3   (no duplicates)\nrun 3  orders_day2.csv lands  -> num_inserted_rows 2, total 5"
+    },
+    {
+     "heading": "4. Pick files, test first",
+     "code": "PATTERN = 'orders_day*.csv'    glob filter\nFILES = ('orders_day2.csv')    explicit list, up to 1,000 (not with PATTERN)\nVALIDATE 15 ROWS               parse + schema check, writes nothing"
+    }
+   ]
+  },
+  {
+   "title": "Options, schema evolution, COPY INTO vs Auto Loader",
+   "blocks": [
+    {
+     "heading": "5. FORMAT_OPTIONS vs COPY_OPTIONS",
+     "code": "FORMAT_OPTIONS  (the file reader)  'header', 'inferSchema', 'mergeSchema'\n                                   (merge source file schemas), 'ignoreCorruptFiles'\nCOPY_OPTIONS    (the copy itself)  'mergeSchema' = evolve the TARGET table\n                                   'force' = 'true' -> idempotency off, reload all",
+     "note": "force = true reloads every file: expect duplicates."
+    },
+    {
+     "heading": "6. Schemaless table: columns inferred",
+     "code": "CREATE TABLE IF NOT EXISTS orders_auto;          -- no columns\nCOPY INTO orders_auto FROM '/Volumes/.../orders' FILEFORMAT = CSV\nFORMAT_OPTIONS ('header' = 'true', 'inferSchema' = 'true', 'mergeSchema' = 'true')\nCOPY_OPTIONS ('mergeSchema' = 'true');           -- 5 rows (new load history)\n-- day 3 adds a channel column -> 2 rows, channel added, older rows null, total 7",
+     "note": "Until the first COPY INTO, a schemaless table can't take INSERT INTO or MERGE INTO."
+    },
+    {
+     "heading": "7. COPY INTO vs Auto Loader",
+     "code": "COPY INTO     SQL command, load history kept per table, thousands of files,\n              easy to reload a chosen subset of files\nAuto Loader   cloudFiles streaming source + checkpoint, millions of files,\n              fewer discovery operations, richer schema inference + evolution",
+     "note": "Thousands of files: COPY INTO. Millions: Auto Loader (recap in A02, more in A04)."
+    },
+    {
+     "heading": "8. Five exam traps",
+     "text": "1) Rerun with no new files: 0 rows. 2) Edited file with the same name: still skipped. 3) force = true: every file loads again, duplicates. 4) New target table: its own load history, so all files load. 5) Evolve the target schema: mergeSchema in COPY_OPTIONS."
+    },
+    {
+     "heading": "Practice challenge",
+     "text": "After day 3 lands, rerun the orders_copy COPY INTO: 2 inserted, total 7, no channel column (the SELECT lists columns). Add force = true: 3 + 2 + 2 = 7 inserted, total 14 with duplicates. Two million files a day: Auto Loader."
+    }
+   ],
+   "disclaimer": [
+    "Associate exam guide (Aug 2026), Section 2. Independent education, not affiliated with Databricks. No exam guarantee.",
+    "Fictional data. A01 youtu.be/PglvHIK-QmU \u00b7 A02 youtu.be/cLrBSH5DXIQ \u00b7 Auto Loader Foundations youtu.be/4HEnm4xL1_0"
+   ]
+  }
+ ]
+}
