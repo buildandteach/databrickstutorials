@@ -1,0 +1,21 @@
+{
+ "kind": "short",
+ "label": "COPY INTO idempotent",
+ "video_url": "Short coming soon on youtube.com/@buildandteach",
+ "kicker": "SHORT  ·  COPY INTO",
+ "title": "COPY INTO rerun loads 0 rows",
+ "definition": "COPY INTO is a SQL command that loads files from a folder into an existing Delta table. It is idempotent: Databricks keeps a load history for each target table, and files already loaded into that table are skipped on the next run. So a rerun with no new files inserts 0 rows. COPY_OPTIONS ('force' = 'true') turns idempotency off and loads every file again.",
+ "points": [
+  "Rerun with no new files: num_inserted_rows 0, total stays 3. No duplicates.",
+  "orders_day2.csv lands: only its 2 rows load, total 5. Each file loads exactly once.",
+  "Edited file with the same name: still skipped.",
+  "New target table: it has its own load history, so all files load into it.",
+  "force = true goes in COPY_OPTIONS: every file loads again. After day 2: 5 inserted, total 10, duplicates."
+ ],
+ "example_note": "A03 example, fictional orders in /Volumes/workspace/bt_copyinto_xxxx/landing/orders. Run 1: 3 rows. Run 2: 0 rows. Run 3: 2 rows, total 5.",
+ "code": "COPY INTO orders_copy\nFROM '/Volumes/workspace/bt_copyinto_xxxx/landing/orders'\nFILEFORMAT = CSV\nFORMAT_OPTIONS ('header' = 'true');\n-- rerun, no new files: 0 rows\n-- COPY_OPTIONS ('force' = 'true'): every file again",
+ "misconception": "COPY INTO does not append every file on each run. The trap answer is force = true: it turns idempotency off, so every file loads again and the table gets duplicates.",
+ "memory_trick": "COPY INTO remembers. force forgets.",
+ "remember": "No new files = 0 rows. force = true = every file again, duplicates included.",
+ "free_note": "Expected results from the A03 lesson notebook (Databricks Free Edition, serverless notebook, Unity Catalog volume). Full lesson: lessons/associate-certification/a03-copy-into."
+}
