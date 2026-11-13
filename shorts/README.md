@@ -26,4 +26,4 @@ Future Shorts need a sheet too. Add the topic in that script, run it, commit `sh
 | Spark SQL and a safe Delta write | [youtube.com/shorts/db0g-hUIFJc](https://youtube.com/shorts/db0g-hUIFJc) | [PDF](spark-sql-delta/cheatsheet.pdf) |
 | Choose Databricks Compute by Workload | [youtu.be/jB1ayvonDas](https://youtu.be/jB1ayvonDas) | [PDF](compute-choice/cheatsheet.pdf) |
 | Auto Loader: Load Only New Files · [Lesson 2, Ingestion Patterns](../lessons/associate-certification/a02-ingestion-patterns/) | [youtube.com/shorts/Bv2EzzZoSnI](https://youtube.com/shorts/Bv2EzzZoSnI) | [PDF](auto-loader-checkpoint/cheatsheet.pdf) |
-| COPY INTO: Rerun Loads 0 Rows · [Lesson A03, COPY INTO Incremental Loading](../lessons/associate-certification/a03-copy-into/) | Coming soon | [PDF](copy-into-idempotent/cheatsheet.pdf) |
+| COPY INTO: Rerun Loads 0 Rows · [Lesson A03, COPY INTO Incremental Loading](../lessons/associate-certification/a03-copy-into/) | [youtube.com/shorts/j2Hz6lvYsz0](https://youtube.com/shorts/j2Hz6lvYsz0) | [PDF](copy-into-idempotent/cheatsheet.pdf) |
