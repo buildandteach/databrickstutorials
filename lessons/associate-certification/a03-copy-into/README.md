@@ -6,7 +6,7 @@ Exam relevance: *Databricks Certified Data Engineer Associate* exam guide (Augus
 
 - Use the COPY INTO command to incrementally load files from cloud object storage into Unity Catalog governed tables.
 
-Video: coming soon.
+Video: [youtu.be/LS0gDlRD_1g](https://youtu.be/LS0gDlRD_1g)
 
 Previous lessons: [A01 Platform tour](../a01-platform-tour/), [A02 Ingestion patterns](../a02-ingestion-patterns/). Related: [Lesson 04, Auto Loader ingestion](../../associate-fundamentals/04-autoloader-ingestion/) in the Foundations series.
 

@@ -33,7 +33,7 @@ Daily lessons mapped to the August 2026 Databricks Certified Data Engineer Assoc
 |---|---|---|---|
 | [A01 Platform tour](lessons/associate-certification/a01-platform-tour/) | [PDF](lessons/associate-certification/a01-platform-tour/cheatsheet.pdf) | Control vs compute plane, Unity Catalog catalog.schema.table, a managed Delta table, DESCRIBE DETAIL/HISTORY, serverless notebook vs SQL warehouse, compute cost models | [youtu.be/PglvHIK-QmU](https://youtu.be/PglvHIK-QmU) |
 | [A02 Ingestion patterns](lessons/associate-certification/a02-ingestion-patterns/) | [PDF](lessons/associate-certification/a02-ingestion-patterns/cheatsheet.pdf) | Batch, streaming and incremental loads, a managed volume, a batch overwrite, and Auto Loader append | [youtu.be/cLrBSH5DXIQ](https://youtu.be/cLrBSH5DXIQ) |
-| [A03 COPY INTO incremental loading](lessons/associate-certification/a03-copy-into/) | [PDF](lessons/associate-certification/a03-copy-into/cheatsheet.pdf) | COPY INTO from a volume, idempotent file loads, schema evolution with mergeSchema, and when to choose Auto Loader | Video coming soon |
+| [A03 COPY INTO incremental loading](lessons/associate-certification/a03-copy-into/) | [PDF](lessons/associate-certification/a03-copy-into/cheatsheet.pdf) | COPY INTO from a volume, idempotent file loads, schema evolution with mergeSchema, and when to choose Auto Loader | [youtu.be/LS0gDlRD_1g](https://youtu.be/LS0gDlRD_1g) |
 
 ## Shorts
 
@@ -55,4 +55,4 @@ Each published Short has its own one-page cheat sheet. A Short sheet is the vide
 | Spark SQL and a safe Delta write | [youtube.com/shorts/db0g-hUIFJc](https://youtube.com/shorts/db0g-hUIFJc) | [PDF](shorts/spark-sql-delta/cheatsheet.pdf) |
 | Choose Databricks Compute by Workload | [youtu.be/jB1ayvonDas](https://youtu.be/jB1ayvonDas) | [PDF](shorts/compute-choice/cheatsheet.pdf) |
 | Auto Loader: Load Only New Files · [Lesson 2, Ingestion Patterns](lessons/associate-certification/a02-ingestion-patterns/) | [youtube.com/shorts/Bv2EzzZoSnI](https://youtube.com/shorts/Bv2EzzZoSnI) | [PDF](shorts/auto-loader-checkpoint/cheatsheet.pdf) |
-| COPY INTO: Rerun Loads 0 Rows · [Lesson A03, COPY INTO Incremental Loading](lessons/associate-certification/a03-copy-into/) | Coming soon | [PDF](shorts/copy-into-idempotent/cheatsheet.pdf) |
+| COPY INTO: Rerun Loads 0 Rows · [Lesson A03, COPY INTO Incremental Loading](lessons/associate-certification/a03-copy-into/) | [youtube.com/shorts/j2Hz6lvYsz0](https://youtube.com/shorts/j2Hz6lvYsz0) | [PDF](shorts/copy-into-idempotent/cheatsheet.pdf) |

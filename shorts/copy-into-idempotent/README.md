@@ -1,6 +1,6 @@
 # COPY INTO: Rerun Loads 0 Rows
 
-Video: Short coming soon (pending review) on [youtube.com/@buildandteach](https://youtube.com/@buildandteach)
+Video: [youtube.com/shorts/j2Hz6lvYsz0](https://youtube.com/shorts/j2Hz6lvYsz0)
 
 Companion to [Lesson A03, COPY INTO Incremental Loading](../../lessons/associate-certification/a03-copy-into/) in the Databricks Data Engineer Associate Series.
 
