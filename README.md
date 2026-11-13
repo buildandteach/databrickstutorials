@@ -33,6 +33,7 @@ Daily lessons mapped to the August 2026 Databricks Certified Data Engineer Assoc
 |---|---|---|---|
 | [A01 Platform tour](lessons/associate-certification/a01-platform-tour/) | [PDF](lessons/associate-certification/a01-platform-tour/cheatsheet.pdf) | Control vs compute plane, Unity Catalog catalog.schema.table, a managed Delta table, DESCRIBE DETAIL/HISTORY, serverless notebook vs SQL warehouse, compute cost models | [youtu.be/PglvHIK-QmU](https://youtu.be/PglvHIK-QmU) |
 | [A02 Ingestion patterns](lessons/associate-certification/a02-ingestion-patterns/) | [PDF](lessons/associate-certification/a02-ingestion-patterns/cheatsheet.pdf) | Batch, streaming and incremental loads, a managed volume, a batch overwrite, and Auto Loader append | [youtu.be/cLrBSH5DXIQ](https://youtu.be/cLrBSH5DXIQ) |
+| [A03 COPY INTO incremental loading](lessons/associate-certification/a03-copy-into/) | [PDF](lessons/associate-certification/a03-copy-into/cheatsheet.pdf) | COPY INTO from a volume, idempotent file loads, schema evolution with mergeSchema, and when to choose Auto Loader | Video coming soon |
 
 ## Shorts
 
