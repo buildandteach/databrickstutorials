@@ -1,0 +1,66 @@
+{
+ "kind": "lesson",
+ "title": "A04 Auto Loader schema evolution cheat sheet",
+ "subtitle": "ASSOCIATE EXAM PREP \u00b7 A04 \u00b7 SECTION 2 INGESTION (21%) \u00b7 AUTO LOADER SCHEMA QUICK REFERENCE",
+ "pages": [
+  {
+   "title": "A04 \u00b7 Auto Loader schema enforcement and evolution",
+   "lede": [
+    "Objective: use Auto Loader with schema enforcement and evolution.",
+    "Free Edition: Unity Catalog volume source, serverless notebook, trigger(availableNow=True). Fictional orders only."
+   ],
+   "blocks": [
+    {
+     "heading": "1. schemaLocation turns on inference + evolution",
+     "code": "df = (spark.readStream.format(\"cloudFiles\")\n      .option(\"cloudFiles.format\", \"csv\")\n      .option(\"cloudFiles.schemaLocation\", chk)     # schema kept in chk/_schemas\n      .load(\"/Volumes/workspace/bt_autoloader_xxxx/landing/orders\"))",
+     "note": "Inference samples the first 50 GB or 1,000 files. schemaLocation can share the checkpoint folder."
+    },
+    {
+     "heading": "2. Default inference: strings",
+     "code": "CSV, JSON, XML    every column inferred as STRING (plus _rescued_data)\nParquet, Avro     types from the file schema (widest type wins on conflict)\ncloudFiles.inferColumnTypes = true   -> typed inference (int, double, ...)",
+     "note": "Strings by default so a changing value can't break a column type later."
+    },
+    {
+     "heading": "3. Schema hints pin known types",
+     "code": ".option(\"cloudFiles.inferColumnTypes\", \"true\")\n.option(\"cloudFiles.schemaHints\", \"amount DECIMAL(10,2), order_date DATE\")",
+     "note": "Hints apply on top of inference, can add a column not seen yet, and are used only without .schema(...)."
+    },
+    {
+     "heading": "4. Write side: mergeSchema",
+     "code": "  .writeStream\n  .option(\"checkpointLocation\", chk)\n  .option(\"mergeSchema\", \"true\")      # Delta table accepts new columns\n  .trigger(availableNow=True)          # serverless: process files, then stop\n  .toTable(\"orders_bronze\")",
+     "note": "Without mergeSchema the restart fails at the Delta write with a schema mismatch."
+    }
+   ]
+  },
+  {
+   "title": "Evolution modes, _rescued_data, exam traps",
+   "blocks": [
+    {
+     "heading": "5. cloudFiles.schemaEvolutionMode",
+     "code": "addNewColumns (default)        fail once (UnknownFieldException), schema updated, restart resumes\naddNewColumnsWithTypeWidening  same + widen types like int -> long (Public Preview)\nrescue                         never evolve, never fail, new columns go to _rescued_data\nfailOnNewColumns               fail, stay failed until you update the schema or remove the file\nnone                           ignore new columns, never fail, no rescue unless rescuedDataColumn",
+     "note": "Provided .schema(...): default mode is none and addNewColumns is not allowed."
+    },
+    {
+     "heading": "6. Day 1 -> day 2 (new column channel + amount N/A)",
+     "code": "run 1  orders_day1.csv              -> 3 rows, typed\nrun 2  orders_day2.csv + channel    -> stream stops, schema location gains channel, still 3\nrun 3  same code (restart)          -> 5 rows, channel null for day 1 rows\n       order 1005 amount N/A        -> amount null, _rescued_data {\"amount\":\"N/A\",\"_file_path\":...}"
+    },
+    {
+     "heading": "7. What lands in _rescued_data",
+     "text": "Type mismatches, columns missing from the schema, and case mismatches, stored as a JSON blob with the source _file_path. With a rescued data column, type mismatches don't fail the read; only malformed records do. Rename it or add it to a provided schema with the rescuedDataColumn option."
+    },
+    {
+     "heading": "8. Five exam traps",
+     "text": "1) CSV and JSON infer strings unless cloudFiles.inferColumnTypes. 2) Default mode: a new column fails the stream once, a restart picks it up (run it in Lakeflow Jobs with retries). 3) rescue: no failure, no new column. 4) Provided schema: default mode is none. 5) New column in the Delta table: mergeSchema on the write."
+    },
+    {
+     "heading": "Practice challenge",
+     "text": "Day 3 adds a coupon column. Default mode: fails once, then the rerun loads day 3 and mergeSchema adds coupon. rescue: no failure, no column, coupon in _rescued_data. Provided schema, no mode: none, coupon ignored, not rescued unless rescuedDataColumn is set."
+    }
+   ],
+   "disclaimer": [
+    "Associate exam guide (Aug 2026), Section 2. Independent education, not affiliated with Databricks. No exam guarantee.",
+    "Fictional data. A02 youtu.be/cLrBSH5DXIQ \u00b7 A03 youtu.be/LS0gDlRD_1g \u00b7 Auto Loader Foundations youtu.be/4HEnm4xL1_0"
+   ]
+  }
+ ]
+}
