@@ -1,0 +1,21 @@
+{
+ "kind": "short",
+ "label": "Auto Loader new column fails once",
+ "video_url": "Short coming soon on youtube.com/@buildandteach",
+ "kicker": "SHORT  \u00b7  AUTO LOADER",
+ "title": "Auto Loader: a new column fails once",
+ "definition": "Auto Loader (the cloudFiles source) stores the schema it infers at cloudFiles.schemaLocation. cloudFiles.schemaEvolutionMode decides what happens when a file brings a new column. The default is addNewColumns: the stream fails once with an UnknownFieldException, after Auto Loader adds the new column to the schema location. Restart the same code and the stream picks up the column.",
+ "points": [
+  "Default addNewColumns: fails once (UnknownFieldException), schema location updated, restart picks up the column.",
+  "A04 example: day 2 adds channel. Run 2 stops, table still 3 rows. Run 3 (restart): 5 rows, channel null for day 1 rows.",
+  "mergeSchema = true on the write lets the Delta table accept channel. Order 1005 amount N/A goes to _rescued_data.",
+  "rescue: never fails, never adds the column. New columns go to _rescued_data.",
+  "failOnNewColumns: fails and stays failed until you update the schema or remove the file. none: ignores new columns, never fails; default with a provided schema."
+ ],
+ "example_note": "A04 example, fictional orders in /Volumes/workspace/bt_autoloader_xxxx/landing/orders. Run 1: 3 rows. Run 2: stream stops, still 3. Run 3: 5 rows.",
+ "code": "(spark.readStream.format(\"cloudFiles\")\n  .option(\"cloudFiles.format\", \"csv\")\n  .option(\"cloudFiles.schemaLocation\", chk)\n  .load(landing))\n# default mode addNewColumns: new column fails once,\n# restart picks it up",
+ "misconception": "The default mode does not silently add the column, and it does not stay failed. It fails once, records the column, and the restart picks it up. rescue is the mode that never fails.",
+ "memory_trick": "Default fails once, then adds. Rescue never fails, never adds.",
+ "remember": "New column, default mode: fails once. Restart picks it up, and mergeSchema adds it to the table.",
+ "free_note": "Expected results from the A04 lesson notebook (Databricks Free Edition, serverless notebook, Unity Catalog volume). Exam guide Section 2, Data Ingestion and Loading. Full lesson: lessons/associate-certification/a04-autoloader-schema-evolution."
+}
