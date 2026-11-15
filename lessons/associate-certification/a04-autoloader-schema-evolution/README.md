@@ -6,7 +6,7 @@ Exam relevance: *Databricks Certified Data Engineer Associate* exam guide (Augus
 
 - Use Auto Loader with schema enforcement and evolution.
 
-Video: coming soon.
+Video: [youtu.be/AzpWro9XjJY](https://youtu.be/AzpWro9XjJY)
 
 Previous lessons: [A02 Ingestion patterns](../a02-ingestion-patterns/), [A03 COPY INTO](../a03-copy-into/). Related: [Lesson 04, Auto Loader ingestion](../../associate-fundamentals/04-autoloader-ingestion/) in the Foundations series.
 

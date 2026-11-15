@@ -1,6 +1,6 @@
 # Auto Loader: A New Column Fails Once
 
-Video: Short coming soon (pending review) on [youtube.com/@buildandteach](https://youtube.com/@buildandteach)
+Video: [youtube.com/shorts/OEVf6PPOcVY](https://youtube.com/shorts/OEVf6PPOcVY)
 
 Companion to [Lesson A04, Auto Loader Schema Evolution](../../lessons/associate-certification/a04-autoloader-schema-evolution/) in the Databricks Data Engineer Associate Series. Exam guide Section 2, Data Ingestion and Loading.
 
