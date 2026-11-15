@@ -1,0 +1,21 @@
+{
+ "kind": "short",
+ "label": "explode vs explode_outer",
+ "video_url": "Short coming soon on youtube.com/@buildandteach",
+ "kicker": "SHORT  \u00b7  PYSPARK EXPLODE",
+ "title": "explode vs explode_outer: 3 rows or 5",
+ "definition": "explode(col) turns an array column into rows: one row per element, and the other selected columns (order_id) repeat on every row. When the array is null or empty, explode returns no row, so that order disappears. explode_outer works the same way, but a null or empty array still gives one row, with a null element.",
+ "points": [
+  "A05 data, 4 orders: 1001 items [A1, B2], 1002 [C3], 1003 [] (empty array), 1004 null.",
+  "explode(\"items\") returns 3 rows: 1001 twice, 1002 once. Orders 1003 and 1004 are gone.",
+  "explode_outer(\"items\") returns 5 rows: the same 3, plus 1003 and 1004 with a null item.",
+  "posexplode adds pos and col (pos starts at 0) and also skips null or empty arrays. posexplode_outer keeps them.",
+  "Need every order, even ones with no items? Use explode_outer. Exam guide Section 3, Data Transformation and Modeling (exploding arrays)."
+ ],
+ "example_note": "A05 example, fictional orders read from a Unity Catalog volume in Databricks Free Edition (serverless notebook).",
+ "code": "from pyspark.sql.functions import explode, explode_outer\norders.select(\"order_id\", explode(\"items\").alias(\"item\")).count()        # 3\norders.select(\"order_id\", explode_outer(\"items\").alias(\"item\")).count()  # 5",
+ "misconception": "explode does not return a null row for an empty or null array. It drops the row. Only the _outer variants keep it.",
+ "memory_trick": "OUTER keeps the outsiders. The empty array and the null stay in.",
+ "remember": "explode: 3 rows. explode_outer: 5 rows. If you need orders with no items, use explode_outer.",
+ "free_note": "Expected results from the A05 lesson notebook (Databricks Free Edition). Exam guide Section 3, Data Transformation and Modeling. Full lesson: lessons/associate-certification/a05-json-explode."
+}
