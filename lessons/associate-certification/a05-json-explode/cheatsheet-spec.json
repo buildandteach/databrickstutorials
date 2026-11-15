@@ -1,0 +1,70 @@
+{
+ "kind": "lesson",
+ "title": "A05 JSON and nested data with explode cheat sheet",
+ "subtitle": "ASSOCIATE EXAM PREP \u00b7 A05 \u00b7 SECTION 2 (21%) + SECTION 3 (22%) \u00b7 NESTED JSON QUICK REFERENCE",
+ "pages": [
+  {
+   "title": "A05 \u00b7 JSON and nested data with explode",
+   "lede": [
+    "Objectives: ingest semi-structured data (JSON and nested data) into Unity Catalog governed Delta tables (S2); manipulate columns and rows, including exploding arrays (S3).",
+    "Free Edition: Unity Catalog volume source, serverless notebook. Fictional orders only."
+   ],
+   "blocks": [
+    {
+     "heading": "1. Read JSON: inferred or explicit schema",
+     "code": "raw_df = spark.read.json(src)                       # JSON Lines: one record per line (default)\nspark.read.option(\"multiLine\", \"true\").json(path)     # pretty-printed file spanning lines\norders = spark.read.schema(schema_ddl).json(src)    # explicit: no inference pass, your types",
+     "note": "Inference: whole numbers -> long, decimals -> double, field names sorted. Auto Loader infers JSON as strings unless cloudFiles.inferColumnTypes."
+    },
+    {
+     "heading": "2. Nested types in a DDL schema",
+     "code": "order_id INT,\ncustomer STRUCT<name: STRING, address: STRUCT<city: STRING, country: STRING>>,\nitems    ARRAY<STRUCT<sku: STRING, qty: INT, price: DECIMAL(10,2)>>,\ntags     ARRAY<STRING>"
+    },
+    {
+     "heading": "3. Structs: dot notation (row count unchanged)",
+     "code": "orders.select(\"order_id\", \"customer.name\", col(\"customer.address.city\").alias(\"city\"))\norders.select(\"order_id\", \"customer.*\")              # every struct field as a column",
+     "note": "The new column takes the last field name (name, city). Alias it when names could clash."
+    },
+    {
+     "heading": "4. Arrays: explode family (row count changes)",
+     "code": "explode(\"items\")         1 row per element; null or [] array -> NO row\nexplode_outer(\"items\")   same, but null or [] -> 1 row with a null element\nposexplode(\"items\")      columns pos + col, pos starts at 0; skips null or []\nposexplode_outer(...)    position + keeps null or []\nexplode(map_col)         columns key + value",
+     "note": "Other selected columns (order_id) repeat on every exploded row."
+    }
+   ]
+  },
+  {
+   "title": "Flatten, from_json, SQL colon syntax, exam traps",
+   "blocks": [
+    {
+     "heading": "5. Worked example: 4 orders",
+     "code": "1001 [A1, B2]  1002 [C3]  1003 []  1004 null\nexplode -> 3 rows   explode_outer -> 5 rows   posexplode 1001 -> pos 0, 1"
+    },
+    {
+     "heading": "6. Flatten to silver",
+     "code": "orders.select(\"order_id\", explode(\"items\").alias(\"item\")) \\\n   .select(\"order_id\", \"item.sku\", \"item.qty\", (col(\"item.qty\") * col(\"item.price\")).alias(\"line_total\"))"
+    },
+    {
+     "heading": "7. JSON in a string column: from_json",
+     "code": "spark.read.text(src).select(from_json(\"value\", schema_ddl).alias(\"o\"))   # string -> struct",
+     "note": "schema_of_json(sample) derives a schema from a sample JSON string."
+    },
+    {
+     "heading": "8. Databricks SQL",
+     "code": "SELECT value:customer.address.city, value:items[0].sku, value:items[*].sku,\n       value:order_id::int FROM raw_orders          -- colon syntax on JSON strings\nSELECT o.order_id, i.item.sku FROM orders_bronze AS o,\n       LATERAL explode(o.items) AS i(item)          -- explode as a table reference",
+     "note": "Colon results are strings (cast with ::). [*] is for JSON strings only. SELECT-list explode and LATERAL VIEW are deprecated."
+    },
+    {
+     "heading": "9. Five exam traps",
+     "text": "1) explode drops rows whose array is null or empty. 2) explode_outer keeps them with a null element. 3) posexplode returns pos and col, and pos starts at 0. 4) Pretty-printed JSON needs multiLine = true. 5) The JSON reader infers real types; Auto Loader infers JSON columns as strings unless cloudFiles.inferColumnTypes."
+    },
+    {
+     "heading": "Practice challenge",
+     "text": "tags: 1001 [web, promo], 1002 [store], 1003 [], 1004 [web]. explode(tags) -> 4 rows. explode_outer(tags) -> 5 rows (1003 kept with null). posexplode: promo is pos 1 (web is 0)."
+    }
+   ],
+   "disclaimer": [
+    "Associate exam guide (Aug 2026), Sections 2 and 3. Independent education, not affiliated with Databricks. No exam guarantee.",
+    "Fictional data. A02 youtu.be/cLrBSH5DXIQ \u00b7 A03 youtu.be/LS0gDlRD_1g \u00b7 A01 youtu.be/PglvHIK-QmU"
+   ]
+  }
+ ]
+}
