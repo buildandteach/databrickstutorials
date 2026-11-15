@@ -1,6 +1,6 @@
 # explode vs explode_outer: 3 Rows or 5
 
-Video: Short coming soon (pending review) on [youtube.com/@buildandteach](https://youtube.com/@buildandteach)
+Video: [youtube.com/shorts/uK2g4muf03c](https://youtube.com/shorts/uK2g4muf03c)
 
 Companion to [Lesson A05, JSON and Nested Data with explode](../../lessons/associate-certification/a05-json-explode/) in the Databricks Data Engineer Associate Series. Exam guide Section 3, Data Transformation and Modeling (exploding arrays).
 

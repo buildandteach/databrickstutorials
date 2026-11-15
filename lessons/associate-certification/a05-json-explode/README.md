@@ -7,7 +7,7 @@ Exam relevance: *Databricks Certified Data Engineer Associate* exam guide (Augus
 - **Section 2, Data Ingestion and Loading (21%)**: ingest semi-structured data (for example, JSON and nested data) into Unity Catalog governed Delta tables.
 - **Section 3, Data Transformation and Modeling (22%)**: manipulate columns, rows and table structures, including exploding arrays.
 
-Video: coming soon.
+Video: [youtu.be/r70MNc5Kla8](https://youtu.be/r70MNc5Kla8)
 
 Previous lessons: [A02 Ingestion patterns](../a02-ingestion-patterns/), [A03 COPY INTO](../a03-copy-into/), [A04 Auto Loader schema evolution](../a04-autoloader-schema-evolution/).
 
