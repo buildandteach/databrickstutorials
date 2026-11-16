@@ -1,10 +1,10 @@
 {
  "kind": "lesson",
  "title": "A06 Choosing an ingestion method cheat sheet",
- "subtitle": "ASSOCIATE EXAM PREP \u00b7 A06 \u00b7 SECTION 2 (21%) \u00b7 LAKEFLOW CONNECT, JDBC AND REST QUICK REFERENCE",
+ "subtitle": "ASSOCIATE EXAM PREP \u00b7 A06 \u00b7 SECTION 2 (21%) \u00b7 INGESTION METHODS QUICK REFERENCE",
  "pages": [
   {
-   "title": "A06 \u00b7 Lakeflow Connect, JDBC and REST",
+   "title": "A06 \u00b7 Choosing an ingestion method",
    "lede": [
     "Objectives (S2): configure Lakeflow Connect; use Java Database Connectivity (JDBC), Open Database Connectivity (ODBC) or REST clients in notebooks; prioritize between Auto Loader, Lakeflow Connect, partner connectors and other methods.",
     "Free Edition: the REST pattern runs with a simulated API. Database change data capture (CDC) connectors and external JDBC reads need a paid workspace and a reachable database."

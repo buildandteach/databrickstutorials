@@ -1,11 +1,11 @@
-# A06 Choosing an ingestion method: Lakeflow Connect, JDBC and REST
+# A06 Choosing an ingestion method: Lakeflow Connect, Java Database Connectivity (JDBC) and REST
 
 Lesson A06 of the **Databricks Data Engineer Associate exam prep series** for **Databricks Free Edition**.
 
 Exam relevance: *Databricks Certified Data Engineer Associate* exam guide (August 2026), **Section 2, Data Ingestion and Loading (21%)**:
 
 - Configure Lakeflow Connect to reliably ingest data from diverse enterprise sources into Unity Catalog governed tables.
-- Use Java Database Connectivity (JDBC) / Open Database Connectivity (ODBC) or REST clients in notebooks to land data into cloud storage or directly into Unity Catalog governed tables, usually orchestrated and scheduled with Lakeflow Jobs.
+- Use JDBC / Open Database Connectivity (ODBC) or REST clients in notebooks to land data into cloud storage or directly into Unity Catalog governed tables, usually orchestrated and scheduled with Lakeflow Jobs.
 - Prioritize between Auto Loader, Lakeflow Connect (standard and managed connectors), partner connectors and other ingestion methods based on data volume, ingestion frequency, data types and governance needs.
 
 Video: coming soon.

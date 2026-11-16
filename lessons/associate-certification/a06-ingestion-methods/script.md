@@ -1,12 +1,12 @@
-# A06 Choosing an ingestion method: Lakeflow Connect, JDBC and REST — narration script
+# A06 Choosing an ingestion method: Lakeflow Connect, Java Database Connectivity (JDBC) and REST — narration script
 
 Databricks Data Engineer Associate exam prep, Lesson A06. Exam guide Aug 2026, Section 2 Data Ingestion and Loading (21%).
 
 ## 01 hook
-Exam question. A SQL Server orders table has to land in Unity Catalog every thirty minutes, with inserts, updates, and deletes, and with the least code to maintain. Do you pick a scheduled notebook with Java Database Connectivity, or J D B C, a REST client, Auto Loader, or Lakeflow Connect? By the end of this lesson, you'll answer it in five seconds.
+Exam question. A SQL Server table must land in Unity Catalog every thirty minutes, deletes included, with the least code to maintain. Which ingestion method wins?
 
 ## 02 welcome
-Welcome to Build and Teach. Today we'll learn how to choose an ingestion method, and how Lakeflow Connect, J D B C, and REST clients each land data in Unity Catalog.
+Welcome to Build and Teach. Today we'll learn how to choose an ingestion method, and how Lakeflow Connect, Java Database Connectivity, or J D B C, and REST clients each land data in Unity Catalog.
 
 ## 03 follow
 To follow along, grab the notebook and the cheat sheet from the Build and Teach databricks tutorials repo on GitHub. The link is in the description.
@@ -27,7 +27,7 @@ Let's configure Lakeflow Connect. A managed database connector has five parts. A
 In a paid workspace, you configure it in the U I. Open Data Ingestion in the sidebar, and pick SQL Server under Databricks connectors. Select a connection, or create one if you have the create connection privilege. Name the ingestion pipeline, the gateway, and the staging location. Then select the source tables, choose the destination catalog and schema, validate the source, and add a schedule. The source database needs change tracking or change data capture turned on first. You can't run this in Free Edition, because it needs a reachable database, and the gateway runs on classic compute.
 
 ## 09 lfc_yaml
-The same setup can live in code, in a Declarative Automation Bundle. The gateway pipeline has a gateway definition, with the connection name and the catalog and schema for staging. It's marked continuous, because it must keep up with the change logs. The ingestion pipeline points at the gateway, and lists the objects to ingest. Here that's a whole source schema, so new tables in that schema are picked up too. The ingestion pipeline doesn't run continuously. A scheduled job triggers it, every thirty minutes for example. The first run takes a full snapshot, and later runs apply only the changes, including deletes.
+The same setup can live in code, in a Declarative Automation Bundle. The gateway pipeline has a gateway definition, with the connection name and the catalog and schema for staging. It runs continuously, because it must keep up with the change logs. The ingestion pipeline points at the gateway, and lists the objects to ingest. Here that's a whole source schema, so new tables in that schema are picked up too. The ingestion pipeline doesn't run continuously. A scheduled job triggers it, every thirty minutes, for example. The first run takes a full snapshot. After that, each run applies only the changes, including deletes.
 
 ## 10 hook_answer
 And that's the answer to our opening question. D, the Lakeflow Connect managed database connector. It uses change data capture, so inserts, updates, and deletes all arrive, and it handles retries and schema changes for you. You configure it, you don't code it. A J D B C notebook could read the table, but a query only returns the rows that exist now. A deleted row just disappears, and you'd have to write and maintain the merge logic yourself. REST doesn't fit a database, and Auto Loader reads files, not tables.
@@ -60,7 +60,7 @@ Cell four loads the landed files into a Unity Catalog table with Auto Loader, th
 Here's what you should expect. Five rows, one per order, from the two landed files. The columns come back in alphabetical order, amount, customer, order i d, and status, and Auto Loader adds the rescued data column, which stays empty here.
 
 ## 20 direct
-Cell five is the direct option. It collects every page into a Python list, turns it into a DataFrame, and appends it to a table. Expect five rows. It's simple, but notice the trap. Append twice and you'll have ten rows, because the A P I returns the same orders again. With a direct write, plan for duplicates, with a merge on the order i d for example.
+Cell five is the direct option. It collects every page into a Python list, turns it into a DataFrame, and appends it to a table. Expect five rows. It's simple, but there's a trap. If you run it twice, you'll have ten rows, because the A P I returns the same orders again. With a direct write, plan for duplicates, with a merge on the order i d for example.
 
 ## 21 prioritize
 Here's how to prioritize on the exam. Read the scenario words. Files keep arriving in cloud storage, at any volume, points to Auto Loader. A simple SQL reload of files that should be idempotent points to copy into. A supported software as a service app or database points to a managed connector, and so does a database where you need changes, including deletes. A custom query, or a database with no connector, points to J D B C. An H T T P A P I with no connector points to REST code in a notebook, scheduled with Lakeflow Jobs. A partner tool your team already runs points to a partner connector. And if you don't want a copy at all, use Lakehouse Federation. Behind each choice are four requirements, data volume, ingestion frequency, data types, and governance with Unity Catalog.
