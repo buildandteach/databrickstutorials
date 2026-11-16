@@ -1,0 +1,21 @@
+{
+ "kind": "short",
+ "label": "SQL Server deletes",
+ "video_url": "Short coming soon on youtube.com/@buildandteach",
+ "kicker": "SHORT  \u00b7  INGESTION METHODS",
+ "title": "SQL Server deletes: a query read or Lakeflow Connect?",
+ "definition": "A Java Database Connectivity (JDBC) read runs a query, and a query only returns the rows that exist now. A row deleted in the source just disappears, so there is no delete to apply. The Lakeflow Connect managed database connector uses change data capture (CDC): it reads the database change log and applies inserts, updates AND deletes to Unity Catalog streaming tables.",
+ "points": [
+  "A06 exam question: a SQL Server orders table must land in Unity Catalog every 30 minutes, deletes included, with the least code to maintain. Answer: D, Lakeflow Connect managed database connector.",
+  "JDBC in a notebook can read the table, but you would write and maintain the merge logic for deletes yourself.",
+  "Ingestion gateway: classic compute, runs continuously, reads the change log before it is truncated. Ingestion pipeline: serverless, triggered on a schedule by a job.",
+  "First run = full snapshot, then only the changes, including deletes. SQL Server needs change tracking or CDC turned on.",
+  "Free Edition: not runnable. It needs a paid workspace, a reachable database, and the gateway runs on classic compute."
+ ],
+ "example_note": "A06 example (shown as code, not runnable in Free Edition). Credentials come from Databricks secrets or a Unity Catalog connection.",
+ "code": "df = spark.read.format(\"jdbc\").option(\"url\", jdbc_url).option(\"dbtable\", \"orders\").load()\n# JDBC: rows that exist now. A deleted row is just missing.\n# Lakeflow Connect database connector (CDC): inserts, updates, deletes.",
+ "misconception": "A scheduled JDBC reload does not bring deletes as changes. It only returns current rows. Picking the change log up is the managed connector's job.",
+ "memory_trick": "A query sees what's there. CDC sees what changed.",
+ "remember": "Deletes included, least code to maintain: Lakeflow Connect managed database connector (CDC). JDBC only sees rows that exist now.",
+ "free_note": "Exam guide Section 2, Data Ingestion and Loading (21 percent). Full lesson: lessons/associate-certification/a06-ingestion-methods."
+}
