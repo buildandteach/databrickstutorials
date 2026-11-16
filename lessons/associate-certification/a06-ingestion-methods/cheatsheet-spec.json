@@ -1,0 +1,66 @@
+{
+ "kind": "lesson",
+ "title": "A06 Choosing an ingestion method cheat sheet",
+ "subtitle": "ASSOCIATE EXAM PREP \u00b7 A06 \u00b7 SECTION 2 (21%) \u00b7 LAKEFLOW CONNECT, JDBC AND REST QUICK REFERENCE",
+ "pages": [
+  {
+   "title": "A06 \u00b7 Lakeflow Connect, JDBC and REST",
+   "lede": [
+    "Objectives (S2): configure Lakeflow Connect; use Java Database Connectivity (JDBC), Open Database Connectivity (ODBC) or REST clients in notebooks; prioritize between Auto Loader, Lakeflow Connect, partner connectors and other methods.",
+    "Free Edition: the REST pattern runs with a simulated API. Database change data capture (CDC) connectors and external JDBC reads need a paid workspace and a reachable database."
+   ],
+   "blocks": [
+    {
+     "heading": "1. The ingestion menu: start with the most managed layer",
+     "code": "Managed connectors   software as a service (SaaS) apps (Salesforce, Workday) + databases (SQL Server, MySQL, PostgreSQL, Oracle)\nStandard connectors  Auto Loader, COPY INTO, Structured Streaming (Kafka): you write the code\nPartner connectors   third-party tools, many via Partner Connect\nDIY in a notebook    JDBC, ODBC or REST clients\nNo copy needed       Lakehouse Federation (query the source in place)",
+     "note": "Databricks recommends the most managed layer that supports your source; drop down only when it doesn't."
+    },
+    {
+     "heading": "2. Lakeflow Connect database connector (CDC): five parts",
+     "code": "connection          Unity Catalog securable: host + credentials (CREATE / USE CONNECTION)\ningestion gateway   classic compute, runs CONTINUOUSLY, reads change logs before truncation\nstaging volume      Unity Catalog volume; staged data purged after 30 days\ningestion pipeline  serverless, triggered on a schedule by a job (not continuous)\ndestination         streaming tables (Delta); first run = snapshot, then changes incl. deletes",
+     "note": "SaaS connectors: connection + pipeline + tables, no gateway or staging. SQL Server needs change tracking or CDC enabled."
+    },
+    {
+     "heading": "3. JDBC in a notebook",
+     "code": "df = (spark.read.format(\"jdbc\").option(\"url\", jdbc_url).option(\"dbtable\", \"public.customers\")\n      .option(\"user\", dbutils.secrets.get(\"crm\", \"user\"))\n      .option(\"password\", dbutils.secrets.get(\"crm\", \"password\")).load())   # then saveAsTable\n# parallel: partitionColumn + lowerBound + upperBound + numPartitions   fetchSize = rows per trip\n# governed: .option(\"databricks.connection\", \"crm_jdbc\").option(\"query\", \"SELECT ...\")",
+     "note": "Default = one query on one thread. query runs in the source's SQL dialect, not with partitionColumn. ODBC (pyodbc) needs a driver you install."
+    }
+   ],
+   "disclaimer": [
+    "Earlier lessons: A01 youtu.be/PglvHIK-QmU \u00b7 A02 youtu.be/cLrBSH5DXIQ \u00b7 A03 youtu.be/LS0gDlRD_1g \u00b7 A04 youtu.be/AzpWro9XjJY",
+    "A05 youtu.be/r70MNc5Kla8 \u00b7 Notebook and this PDF: github.com/buildandteach/databrickstutorials (folder a06-ingestion-methods)"
+   ]
+  },
+  {
+   "title": "REST pattern, decision table, exam traps",
+   "blocks": [
+    {
+     "heading": "4. Configure it: UI or bundle",
+     "code": "UI: Data Ingestion > SQL Server > connection > pipeline, gateway, staging > tables > destination > Validate > schedule\nYAML: gateway_definition (connection_name, gateway_storage_*), continuous; ingestion_definition (ingestion_gateway_id, objects)"
+    },
+    {
+     "heading": "5. REST client in a notebook (runs in Free Edition with a simulated API)",
+     "code": "while page:                                   # follow the pages until next_page is None\n    body = get_page(page)                     # real: requests.get(url, params, headers, timeout).json()\n    dbutils.fs.put(f\"{raw}/run_{run_id}/p{page}.json\", \"\\n\".join(json.dumps(r) for r in body[\"data\"]))\n    page = body[\"next_page\"]                  # then Auto Loader availableNow -> 5 rows",
+     "note": "Raw in a volume = audit + replay. Direct createDataFrame + append is simpler, but a rerun duplicates rows."
+    },
+    {
+     "heading": "6. Scenario words to method",
+     "code": "files keep arriving in cloud storage, any volume   -> Auto Loader\nfew files, SQL, idempotent reload                  -> COPY INTO\nsupported SaaS app or database, least maintenance  -> Lakeflow Connect managed connector\nneed database inserts, updates AND deletes         -> managed database connector (CDC)\ncustom query / database without a connector        -> JDBC (or query-based connector)\nHTTP API without a connector                       -> REST client + Lakeflow Jobs schedule\nteam already runs a partner tool                   -> partner connector\nquery in place, no copy                            -> Lakehouse Federation",
+     "note": "Decide on data volume, ingestion frequency, data types and Unity Catalog governance."
+    },
+    {
+     "heading": "7. Five exam traps",
+     "text": "1) Most managed layer that supports the source first. 2) CDC gateway: continuous, classic compute; ingestion pipeline: scheduled, serverless. 3) JDBC = one single-threaded query unless partitionColumn + bounds + numPartitions. 4) Credentials in secrets or a connection, never the URL. 5) Auto Loader reads files, not databases or APIs."
+    },
+    {
+     "heading": "Practice challenge",
+     "text": "Q1 clickstream JSON files in S3 -> Auto Loader. Q2 Salesforce daily, minimal maintenance -> managed SaaS connector. Q3 internal HTTP API, hourly -> REST notebook, land raw, Auto Loader, Lakeflow Jobs."
+    }
+   ],
+   "disclaimer": [
+    "Associate exam guide (Aug 2026), Section 2. Independent education, not affiliated with Databricks. No exam guarantee.",
+    "Fictional data only."
+   ]
+  }
+ ]
+}
