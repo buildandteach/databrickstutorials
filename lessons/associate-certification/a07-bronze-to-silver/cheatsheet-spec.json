@@ -1,0 +1,63 @@
+{
+ "kind": "lesson",
+ "title": "A07 Bronze to silver cleaning cheat sheet",
+ "subtitle": "ASSOCIATE EXAM PREP · A07 · SECTION 3 (22%) · BRONZE TO SILVER QUICK REFERENCE",
+ "pages": [
+  {
+   "title": "A07 · Bronze to silver cleaning",
+   "lede": [
+    "Objectives (S3): clean nulls, standardize types, write new silver tables; add, drop, split, rename, filter.",
+    "Serverless runs American National Standards Institute (ANSI) SQL mode by default (as do Spark 4.0, Runtime 17.0+)."
+   ],
+   "blocks": [
+    {
+     "heading": "1. Trap: cast vs try_cast (ANSI mode on)",
+     "code": "bronze.select(F.col(\"amount\").cast(\"decimal(10,2)\")).show()   # [CAST_INVALID_INPUT] 'N/A' is malformed\ntyped = bronze.withColumn(\"amount\", F.expr(\"try_cast(amount AS DECIMAL(10,2))\"))   # N/A -> NULL\nbad = bronze.filter(F.col(\"amount\").isNotNull() & F.expr(\"try_cast(amount AS DECIMAL(10,2))\").isNull())\nbad.count()   # 1 (order 1002)",
+     "note": "cast: one bad value fails the query. try_cast: NULL (impossible type pairs still error). Count the NULLs."
+    },
+    {
+     "heading": "2. Traps: dropna and fillna",
+     "code": "bronze.dropna().count()                       # 0  how=\"any\": every row has a null _rescued_data\nbronze.dropna(subset=[\"order_id\"]).count()    # 5  how=\"all\" -> 6, thresh=n keeps n+ non-nulls\nbronze.fillna(0)                              # string customer_name still NULL (type mismatch ignored)\nbronze.fillna({\"customer_name\": \"unknown\"})   # use a dict",
+     "note": "dropna() with no subset can empty a table. fillna only fills columns of the value's type."
+    },
+    {
+     "heading": "3. The full bronze to silver chain",
+     "code": "silver = (bronze\n  .dropna(subset=[\"order_id\"])                                   # nulls: drop rows\n  .withColumn(\"order_id\", F.col(\"order_id\").cast(\"int\"))\n  .withColumn(\"amount\", F.expr(\"try_cast(amount AS DECIMAL(10,2))\"))   # types\n  .withColumn(\"order_date\", F.to_date(\"order_date\", \"yyyy-MM-dd\"))\n  .withColumn(\"customer_name\", F.trim(\"customer_name\"))\n  .fillna({\"customer_name\": \"unknown\"})                          # nulls: fill\n  .withColumn(\"city\", F.split(\"city_state\", \", \").getItem(0))     # split, add\n  .withColumn(\"state\", F.split(\"city_state\", \", \").getItem(1))\n  .drop(\"city_state\", \"_rescued_data\")                           # drop\n  .withColumnRenamed(\"customer_name\", \"customer\")                # rename\n  .filter(F.col(\"amount\").isNotNull()))                          # filter\nsilver.write.mode(\"overwrite\").saveAsTable(\"silver_orders\")      # 6 bronze -> 3 silver: 1001, 1003, 1006",
+     "note": "withColumn adds or replaces. split takes a regex. ANSI: getItem past the end fails, get() returns NULL."
+    }
+   ],
+   "disclaimer": [
+    "Notebook + PDF: github.com/buildandteach/databrickstutorials (a07-bronze-to-silver) · A01-A06 links in the notebook"
+   ]
+  },
+  {
+   "title": "SQL version, rejected rows, snippet, checklist",
+   "blocks": [
+    {
+     "heading": "4. The same silver table in SQL: CREATE TABLE AS SELECT (CTAS)",
+     "code": "CREATE OR REPLACE TABLE silver_orders AS\nSELECT CAST(order_id AS INT) AS order_id, coalesce(trim(customer_name), 'unknown') AS customer,\n       try_cast(amount AS DECIMAL(10,2)) AS amount, to_date(order_date) AS order_date,\n       split(city_state, ', ')[0] AS city, split(city_state, ', ')[1] AS state\nFROM bronze_orders WHERE order_id IS NOT NULL AND try_cast(amount AS DECIMAL(10,2)) IS NOT NULL;",
+     "note": "coalesce = fillna; leaving a column out of the SELECT = drop. Same 3 rows."
+    },
+    {
+     "heading": "5. On the job: count what you rejected",
+     "code": "reason = (F.when(F.col(\"order_id\").isNull(), \"no order_id\").when(F.col(\"amount\").isNull(), \"no amount\")\n  .when(F.expr(\"try_cast(amount AS DECIMAL(10,2))\").isNull(), \"bad amount\"))\nrejected = bronze.withColumn(\"reason\", reason).filter(F.col(\"reason\").isNotNull())   # groupBy: 1 each\nprint(bronze.count(), silver.count(), rejected.count())   # 6 3 3  -> save as orders_rejected"
+    },
+    {
+     "heading": "6. Reusable snippet: try_cast and count",
+     "code": "def try_cast_count(df, col, to=\"DECIMAL(10,2)\"):\n    typed = F.expr(f\"try_cast({col} AS {to})\")\n    bad = df.filter(F.col(col).isNotNull() & typed.isNull())\n    print(f\"{col}: {bad.count()} bad value(s)\")\n    return df.withColumn(col, typed), bad"
+    },
+    {
+     "heading": "7. Bronze to silver checklist",
+     "text": "1) Read bronze, write a NEW silver table. 2) Required columns only: dropna(subset=[...]). 3) try_cast, then count the NULLs it made. 4) Fill with a dict, not fillna(0). 5) Check columns after drop / withColumnRenamed (missing columns are ignored). 6) Reconcile: bronze = silver + rejected. Memory trick: cast fails loud. try_cast fails quiet. A quiet NULL still needs a count."
+    },
+    {
+     "heading": "Practice challenge",
+     "text": "Q1 no filter line -> 5 rows (1002, 1005 keep a NULL amount). Q2 dropna(how=\"all\") -> 6. Q3 before fillna add .withColumn(\"status\", F.lower(F.trim(\"status\"))) and \"status\": \"unknown\" in the dict."
+    }
+   ],
+   "disclaimer": [
+    "Exam guide (Aug 2026), Section 3. Independent education, not affiliated with Databricks. No exam guarantee. Fictional data. Checked with local Apache Spark 4.0, not Databricks."
+   ]
+  }
+ ]
+}
