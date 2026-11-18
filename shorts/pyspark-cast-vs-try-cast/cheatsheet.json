@@ -1,0 +1,21 @@
+{
+ "kind": "short",
+ "label": "cast vs try_cast",
+ "video_url": "Short coming soon on youtube.com/@buildandteach",
+ "kicker": "SHORT  \u00b7  BRONZE TO SILVER",
+ "title": "PySpark cast trap: one N/A fails the job on serverless",
+ "definition": "Serverless compute runs with American National Standards Institute (ANSI) SQL mode on by default. In ANSI mode, an invalid cast raises an error instead of quietly returning NULL. So casting a string column that holds N/A to DECIMAL(10,2) fails the whole query with CAST_INVALID_INPUT. try_cast is the tolerant version: a malformed value becomes NULL and the job keeps going.",
+ "points": [
+  "A07 exam-style question: bronze_orders.amount is a string with \"25.50\", \"N/A\" and \"14.00\". On serverless, cast to DECIMAL(10,2) fails. Answer: C, the query fails.",
+  "ANSI mode is on by default on serverless compute, in Apache Spark 4.0, and in Databricks Runtime 17.0 and above. Older classic runtimes had it off, so the same cast returned NULL.",
+  "try_cast(amount AS DECIMAL(10,2)) returns NULL for malformed or out-of-range values. It still errors if the two types are not a valid cast combination.",
+  "A NULL from try_cast hides the bad value: count those rows first (1 here, order 1002), then filter or quarantine them before writing the silver table.",
+  "Free Edition runs on serverless compute, so expect the error there. Exam guide Section 3: standardize data types when cleaning bronze into silver."
+ ],
+ "example_note": "A07 example. Output checked on local Apache Spark 4.0 (ANSI on by default), not on Databricks.",
+ "code": "t = \"try_cast(amount AS DECIMAL(10,2))\"\nsilver = (bronze.withColumn(\"amount\", F.expr(t))\n          .filter(F.col(\"amount\").isNotNull()))   # 1002 \"N/A\" -> NULL, filtered",
+ "misconception": "Bad strings do not quietly turn into NULL on serverless. cast raises CAST_INVALID_INPUT. Only try_cast (or turning ANSI mode off) gives NULL.",
+ "memory_trick": "Cast fails loud. try_cast fails quiet. A quiet NULL still needs a count.",
+ "remember": "On serverless, cast fails on a bad value and try_cast returns NULL. Count the NULLs, then filter or quarantine before writing silver.",
+ "free_note": "Exam guide Section 3, Data Transformation and Modeling (22 percent). Full lesson: lessons/associate-certification/a07-bronze-to-silver."
+}
