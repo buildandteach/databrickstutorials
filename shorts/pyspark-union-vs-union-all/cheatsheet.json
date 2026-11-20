@@ -1,0 +1,21 @@
+{
+ "kind": "short",
+ "label": "union vs union all",
+ "video_url": "Short coming soon on youtube.com/@buildandteach",
+ "kicker": "SHORT  \u00b7  JOINS AND UNIONS",
+ "title": "PySpark union trap: duplicates are kept",
+ "definition": "In PySpark, df1.union(df2) appends the rows of df2 to df1 and keeps duplicate rows, the same as UNION ALL in SQL. unionAll is an alias of union. Both match columns by position. In SQL, a plain UNION (UNION DISTINCT) removes duplicates and UNION ALL keeps them.",
+ "points": [
+  "A08 exam-style question: orders_mon has orders 5001 and 5002, orders_resend has 5002 and 5003. orders_mon.union(orders_resend).count() returns 4, not 3. Answer: B.",
+  "To get SQL UNION behavior from DataFrames, add .distinct(): orders_mon.union(orders_resend).distinct().count() returns 3.",
+  "SQL: SELECT ... UNION SELECT ... returns 3 rows. UNION ALL returns 4 rows.",
+  "union matches by position, not name. If a file has customer_id first, customer 103 lands in order_id with no error. unionByName matches by name.",
+  "Different column counts fail with NUM_COLUMNS_MISMATCH. unionByName(other, allowMissingColumns=True) fills missing columns with NULL."
+ ],
+ "example_note": "A08 example. Output checked on local Apache Spark 4.0, not on Databricks.",
+ "code": "orders_mon.union(orders_resend).count()              # 4\norders_mon.union(orders_resend).distinct().count()   # 3\norders_mon.unionByName(orders_store)                 # match by name",
+ "misconception": "PySpark union does not remove duplicates. Only SQL UNION (DISTINCT) or an explicit .distinct() does.",
+ "memory_trick": "PySpark union is UNION ALL in disguise. It keeps every row and matches columns by position.",
+ "remember": "union and unionAll keep duplicates. Add distinct() for unique rows. Use unionByName when column order can differ.",
+ "free_note": "Exam guide Section 3, Data Transformation and Modeling (22 percent): combine DataFrames (union, union all). Full lesson: lessons/associate-certification/a08-joins-unions."
+}
