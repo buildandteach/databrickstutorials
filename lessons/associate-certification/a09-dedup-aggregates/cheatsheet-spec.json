@@ -1,0 +1,70 @@
+{
+ "kind": "lesson",
+ "title": "A09 Deduplication and aggregates cheat sheet",
+ "subtitle": "ASSOCIATE EXAM PREP \u00b7 A09 \u00b7 SECTION 3 (22%) \u00b7 DEDUPLICATION AND AGGREGATES QUICK REFERENCE",
+ "pages": [
+  {
+   "title": "A09 \u00b7 Deduplication and aggregates",
+   "lede": [
+    "Objective (S3): perform deduplication and aggregate operations on DataFrames: count, approximate count distinct, mean, summary.",
+    "orders_cdc, a change data capture (CDC) feed, 8 rows: 5003 exact copy; 5001 24.00 -> 28.50 same day; 5002 30.00 -> 36.00 late (arrives Nov 4)."
+   ],
+   "blocks": [
+    {
+     "heading": "1. distinct and dropDuplicates",
+     "code": "orders_cdc.distinct().count()                         # 7  exact copies only (5003)\norders_cdc.dropDuplicates().count()                   # 7  same as distinct()\norders_cdc.dropDuplicates([\"order_id\"]).count()       # 5  one row per key, but WHICH row is not guaranteed",
+     "note": "dropDuplicates has no sort argument (plan: first() per key). One local run kept 5001 24.00 + 5002 36.00, another kept 30.00. orderBy first is no guarantee."
+    },
+    {
+     "heading": "2. Pick the business key",
+     "code": "orders_cdc.dropDuplicates([\"customer_id\"]).count()             # 4  too narrow: deletes real order 5001 or 5004\norders_cdc.dropDuplicates([\"order_id\", \"change_ts\"]).count()   # 7  too wide: updates survive",
+     "note": "Business key = order_id. Not customer_id, not order_id + change_ts."
+    },
+    {
+     "heading": "3. Keep the latest change with row_number",
+     "code": "w = Window.partitionBy(\"order_id\").orderBy(F.col(\"change_ts\").desc())\norders_latest = (orders_cdc.withColumn(\"rn\", F.row_number().over(w))\n                 .filter(\"rn = 1\").drop(\"rn\"))                     # 5 rows: 5001 28.50, 5002 36.00\n-- SQL: ROW_NUMBER() OVER (PARTITION BY order_id ORDER BY change_ts DESC) AS rn ... WHERE rn = 1",
+     "note": "Ties on change_ts? Add a tiebreaker column to orderBy. Streaming dropDuplicates keeps every key as state: use withWatermark()."
+    },
+    {
+     "heading": "4. Daily count and average order value (dedupe first)",
+     "code": "daily = (orders_latest.groupBy(\"order_date\")\n  .agg(F.count(\"*\").alias(\"order_count\"), F.round(F.avg(\"amount\"), 2).alias(\"avg_order_value\")))\n# 2026-11-02  2  32.25 = (28.50 + 36.00) / 2     2026-11-03  3  23.83 = (13.50 + 40.00 + 18.00) / 3",
+     "note": "Raw feed (wrong, no error): Nov 2 4 orders 29.63, Nov 3 4 orders 21.25. F.avg = F.mean, both skip NULLs."
+    }
+   ],
+   "disclaimer": [
+    "Notebook + PDF: github.com/buildandteach/databrickstutorials (a09-dedup-aggregates) \u00b7 Previous: A08 joins and unions (a08-joins-unions)"
+   ]
+  },
+  {
+   "title": "Counts, summary, checklist, snippet",
+   "blocks": [
+    {
+     "heading": "5. count vs count_distinct vs approx_count_distinct",
+     "code": "F.count(\"*\")                          # 8  rows, NULLs included (+1 NULL order_id row: 9)\nF.count(\"order_id\")                   # 8  non-NULL values (still 8 with the NULL row)\nF.count_distinct(\"order_id\")          # 5  exact, skips NULLs (= countDistinct)\nF.approx_count_distinct(\"order_id\")   # 5  estimate (HyperLogLog++), ~5% by default",
+     "note": "rsd = max relative standard deviation, default 0.05. range(100000) local run: approx 95546, rsd 0.1 102065, exact 100000. Must be exact? count_distinct."
+    },
+    {
+     "heading": "6. describe and summary",
+     "code": "orders_latest.select(\"amount\").describe()   # count 5, mean 27.200000, stddev 11.35..., min 13.50, max 40.00\norders_latest.select(\"amount\").summary()    # + 25% 18.0, 50% 28.5, 75% 36.0 (approximate)",
+     "note": "Pick stats: summary(\"count\", \"mean\", \"min\", \"max\"). summary is for exploration; use groupBy().agg() for reports."
+    },
+    {
+     "heading": "7. Dedup checklist",
+     "text": "1) Business key: order_id. 2) Sort: change_ts (+ tiebreaker). 3) Keep latest: row_number, rn = 1; dropDuplicates(key) only for exact copies. 4) Check: count() after = count_distinct(key) before (5 = 5). 5) Then aggregate."
+    },
+    {
+     "heading": "8. Reusable snippet: keep_latest",
+     "code": "def keep_latest(df, key_cols, ts_col):\n    w = Window.partitionBy(*key_cols).orderBy(F.col(ts_col).desc())\n    return df.withColumn(\"rn\", F.row_number().over(w)).filter(\"rn = 1\").drop(\"rn\")\norders_latest = keep_latest(orders_cdc, [\"order_id\"], \"change_ts\")   # then assert 5 == 5",
+     "note": "Memory trick: dropDuplicates keeps a row. row_number keeps the right row."
+    },
+    {
+     "heading": "Practice challenge",
+     "text": "Q1 insert rows, dropDuplicates(): 5 (6 inserts, one exact copy). Q2 customer 101 total in orders_latest: 68.50 (28.50 + 40.00). Q3 count_distinct(customer_id): 4. Exam-style (exact distinct customers for an invoice): F.count_distinct(\"customer_id\")."
+    }
+   ],
+   "disclaimer": [
+    "Exam guide (Aug 2026), Section 3. Independent education, not affiliated with Databricks. No exam guarantee. Fictional data. Checked with local Apache Spark 4.0, not Databricks."
+   ]
+  }
+ ]
+}
