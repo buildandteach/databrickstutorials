@@ -1,0 +1,21 @@
+{
+ "kind": "short",
+ "label": "dropDuplicates vs row_number",
+ "video_url": "Short coming soon on youtube.com/@buildandteach",
+ "kicker": "SHORT  \u00b7  DEDUPLICATION AND AGGREGATES",
+ "title": "PySpark dropDuplicates trap: the latest row is not guaranteed",
+ "definition": "df.dropDuplicates([\"order_id\"]) keeps one row per order_id, but it has no sort argument, so you cannot choose which row survives. distinct() and dropDuplicates() with no arguments remove only rows that match in every column. To keep the latest change per key, use row_number() over a window partitioned by the key and ordered by the change timestamp descending, then keep row 1.",
+ "points": [
+  "A09 exam-style question: order 5002 has two rows in orders_cdc, 30.00 and a late update to 36.00. Which row does dropDuplicates([\"order_id\"]) keep? Answer: D, not guaranteed.",
+  "In a local Spark run, dropDuplicates kept the old 24.00 row for order 5001 and the new 36.00 row for order 5002. Sorting the DataFrame first is not a guarantee.",
+  "Dedup checklist: business key (order_id, not customer_id), sort (change_ts, newest first), keep latest (row_number() = 1), then aggregate.",
+  "Aggregate after you dedupe. Raw feed, Nov 2: 4 orders, average 29.63. Deduplicated: 2 orders, average 32.25.",
+  "dropDuplicates([\"order_id\"]) is fine when any surviving row is acceptable, such as exact copies."
+ ],
+ "example_note": "A09 example. Output checked on local Apache Spark 4.0, not on Databricks.",
+ "code": "w = Window.partitionBy(\"order_id\").orderBy(F.col(\"change_ts\").desc())\nlatest = (orders_cdc.withColumn(\"rn\", F.row_number().over(w))\n          .filter(\"rn = 1\").drop(\"rn\"))   # 5 rows, latest change each",
+ "misconception": "dropDuplicates does not keep the latest row. It keeps a row, and which one is not guaranteed.",
+ "memory_trick": "dropDuplicates keeps a row. row_number keeps the right row.",
+ "remember": "Business key, sort, keep latest with row_number, then aggregate.",
+ "free_note": "Exam guide Section 3, Data Transformation and Modeling (22 percent): deduplication and aggregate operations on DataFrames. Full lesson: lessons/associate-certification/a09-dedup-aggregates."
+}
