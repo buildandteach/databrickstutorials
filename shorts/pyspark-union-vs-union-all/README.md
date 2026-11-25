@@ -1,6 +1,6 @@
 # PySpark union vs UNION ALL: Duplicates Are Kept
 
-Video: Short coming soon (pending review) on [youtube.com/@buildandteach](https://youtube.com/@buildandteach)
+Video: [youtube.com/shorts/H_MMKRj7CYk](https://youtube.com/shorts/H_MMKRj7CYk)
 
 Companion to [Lesson A08, Joins and Unions](../../lessons/associate-certification/a08-joins-unions/) in the Databricks Data Engineer Associate Series. Exam guide Section 3, Data Transformation and Modeling.
 

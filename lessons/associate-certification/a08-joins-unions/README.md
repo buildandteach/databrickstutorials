@@ -6,7 +6,7 @@ Exam relevance: *Databricks Certified Data Engineer Associate* exam guide (Augus
 
 - Combine DataFrames with operations such as inner join, left join, broadcast join, multiple keys, cross join, union, and union all.
 
-Video: coming soon.
+Video: [youtu.be/aaQKkzPOJOw](https://youtu.be/aaQKkzPOJOw)
 
 Previous lessons: [A02 Ingestion patterns](../a02-ingestion-patterns/), [A03 COPY INTO](../a03-copy-into/), [A04 Auto Loader schema evolution](../a04-autoloader-schema-evolution/), [A05 JSON and explode](../a05-json-explode/), [A06 Ingestion methods](../a06-ingestion-methods/), [A07 Bronze to silver cleaning](../a07-bronze-to-silver/).
 
