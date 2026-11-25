@@ -6,7 +6,7 @@ Exam relevance: *Databricks Certified Data Engineer Associate* exam guide (Augus
 
 - Perform data deduplication operations and aggregate operations on DataFrames, such as count, approximate count distinct, and mean, summary.
 
-Video: coming soon.
+Video: [youtu.be/5ZNyoawWl2k](https://youtu.be/5ZNyoawWl2k)
 
 Previous lessons: [A02 Ingestion patterns](../a02-ingestion-patterns/), [A03 COPY INTO](../a03-copy-into/), [A04 Auto Loader schema evolution](../a04-autoloader-schema-evolution/), [A05 JSON and explode](../a05-json-explode/), [A06 Ingestion methods](../a06-ingestion-methods/), [A07 Bronze to silver cleaning](../a07-bronze-to-silver/), [A08 Joins and unions](../a08-joins-unions/).
 

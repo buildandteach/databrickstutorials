@@ -1,6 +1,6 @@
 # PySpark dropDuplicates Trap: The Latest Row Is Not Guaranteed
 
-Video: Short coming soon (pending review) on [youtube.com/@buildandteach](https://youtube.com/@buildandteach)
+Video: [youtube.com/shorts/PdoTF8ZuEEY](https://youtube.com/shorts/PdoTF8ZuEEY)
 
 Companion to [Lesson A09, Deduplication and Aggregates](../../lessons/associate-certification/a09-dedup-aggregates/) in the Databricks Data Engineer Associate Series. Exam guide Section 3, Data Transformation and Modeling.
 
