@@ -1,0 +1,63 @@
+{
+ "kind": "lesson",
+ "title": "A10 Gold layer objects cheat sheet",
+ "subtitle": "ASSOCIATE EXAM PREP · A10 · SECTION 3 (22%) · GOLD LAYER OBJECTS QUICK REFERENCE",
+ "pages": [
+  {
+   "title": "A10 · Gold layer views and tables",
+   "lede": [
+    "Objective (S3): build and choose gold objects (materialized views, views, streaming tables, and tables, e.g. CREATE TABLE AS SELECT (CTAS)) for business intelligence (BI) and analytics teams in Unity Catalog.",
+    "silver.customers 101-104 (state = region: TX, TX, CO, OK) + silver.orders 5001-5005 (latest row per order, end of Nov 3)."
+   ],
+   "blocks": [
+    {
+     "heading": "1. The four gold objects",
+     "code": "View               no data   recomputed on every query     ad-hoc slices\nMaterialized view  stored    recomputed on each refresh    aggregates, joins, changes\nStreaming table    stored    each new input row once       append-only ingestion\nTable (CTAS)       stored    only when you write to it     frozen snapshots",
+     "note": "Materialized views and streaming tables are Unity Catalog managed tables, backed by a pipeline."
+    },
+    {
+     "heading": "2. The gold query (local run, Nov 3 data)",
+     "code": "SELECT o.order_date, c.state AS region, COUNT(*) AS order_count, SUM(o.amount) AS total_sales\nFROM silver.orders o JOIN silver.customers c ON o.customer_id = c.customer_id\nGROUP BY o.order_date, c.state;\n-- 2026-11-02 TX 2 58.50 | 2026-11-03 CO 1 13.50 | 2026-11-03 OK 1 18.00 | 2026-11-03 TX 1 40.00",
+     "note": "Nov 4: order 5002 (a Nov 2 order) updated 30.00 -> 36.00. Correct Nov 2 TX = 28.50 + 36.00 = 64.50."
+    },
+    {
+     "heading": "3. Materialized view for the dashboard",
+     "code": "CREATE OR REPLACE MATERIALIZED VIEW gold.daily_sales_by_region\n  SCHEDULE EVERY 1 HOUR AS SELECT ... (the gold query);\nREFRESH MATERIALIZED VIEW gold.daily_sales_by_region;   -- expected Nov 2 TX: 64.50",
+     "note": "Current as of its last refresh: manual, SCHEDULE EVERY / CRON, or TRIGGER ON UPDATE."
+    },
+    {
+     "heading": "4. After the late update (Nov 2 TX)",
+     "code": "view gold.daily_sales_v              64.50   recomputed on read (local run)\nCTAS gold.daily_sales_snapshot       58.50   stored once, never rewritten (local run)\nmaterialized view, before refresh    58.50   expected\nmaterialized view, after refresh     64.50   expected\nCREATE OR REPLACE VIEW gold.orders_by_region ...   ad-hoc slices, no storage"
+    }
+   ],
+   "disclaimer": [
+    "Notebook + PDF: github.com/buildandteach/databrickstutorials (a10-gold-layer-views) · Previous: A09 deduplication and aggregates (a09-dedup-aggregates)"
+   ]
+  },
+  {
+   "title": "The trap, checklist, snippet",
+   "blocks": [
+    {
+     "heading": "5. The trap: a streaming table for the daily aggregate",
+     "text": "A streaming table processes each input row once and expects an append-only source. A streaming read of a Delta table throws an error on UPDATE, DELETE, MERGE INTO or overwrite; with skipChangeCommits the change is skipped, not applied. Nov 2 TX stays wrong until a full refresh. Use a materialized view when the query aggregates or joins, or when the source can change. Memory trick: streaming tables read each row once. Materialized views recompute the answer."
+    },
+    {
+     "heading": "6. Object-choice checklist",
+     "text": "1) Latency: must every read be fully current? (view always; materialized view as of last refresh; streaming table low latency for new rows) 2) Refresh: who updates it? (none / manual, schedule, on update / each pipeline update / only when you write) 3) Late data: can old rows change? Aggregate or join: materialized view. 4) Cost: view pays every read; materialized view pays at refresh, reads cheap. Free Edition: one active pipeline per pipeline type."
+    },
+    {
+     "heading": "7. Reusable snippet: one of each",
+     "code": "-- bronze: append-only files, each row once (expected pattern)\nCREATE OR REFRESH STREAMING TABLE bronze.orders_raw\nAS SELECT * FROM STREAM read_files('/Volumes/workspace/retail/landing/orders/', format => 'json');\n-- gold: aggregate that must reflect late updates\nCREATE OR REPLACE MATERIALIZED VIEW gold.daily_sales_by_region SCHEDULE EVERY 1 HOUR AS SELECT ...;\n-- gold: light ad-hoc slice, always current, no storage\nCREATE OR REPLACE VIEW gold.orders_by_region AS SELECT o.order_id, o.order_date, c.state AS region, o.amount ...;",
+     "note": "Rule of thumb: streaming tables for bronze ingestion, materialized views for gold aggregates, views for ad-hoc slices, tables for frozen snapshots."
+    },
+    {
+     "heading": "Practice challenge",
+     "text": "Q1 TX SUM(amount) in gold.orders_by_region after the update: 104.50 (28.50 + 36.00 + 40.00). Q2 November totals frozen at month-end: a table (CREATE TABLE AS SELECT). Q3 insert 5006 (104, Nov 4, 25.00) + refresh: 5 rows, new Nov 4 OK 1 25.00, Nov 2 TX still 64.50. Exam-style (append-only JSON files, each once, low latency): a streaming table with STREAM read_files."
+    }
+   ],
+   "disclaimer": [
+    "Exam guide (Aug 2026), Section 3. Independent education, not affiliated with Databricks. No exam guarantee. Fictional data. Views and tables checked with local Apache Spark 4.0, not Databricks; materialized view and streaming table results are expected, from the Databricks docs."
+   ]
+  }
+ ]
+}
