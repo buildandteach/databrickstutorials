@@ -1,0 +1,20 @@
+{
+ "kind": "short",
+ "label": "streaming table vs materialized view",
+ "video_url": "Short coming soon on youtube.com/@buildandteach",
+ "kicker": "SHORT  \u00b7  GOLD LAYER OBJECTS",
+ "title": "Streaming table vs materialized view: late updates need a materialized view",
+ "definition": "A streaming table processes each input row once and expects an append-only source. A materialized view stores results and recalculates them on each refresh, including updates and deletes in the source. A regular view stores no data and runs its query on every read.",
+ "points": [
+  "A10 exam-style question: Nov 2, TX shows 58.50. On Nov 4 a late update changes order 5002 (a Nov 2 order) from 30.00 to 36.00. Which object keeps Nov 2 right? Answer: B, a materialized view (64.50 after its next refresh, expected).",
+  "The trap: a streaming read of a Delta table fails on UPDATE, DELETE or MERGE. With skipChangeCommits the change is skipped. The old day stays wrong until a full refresh.",
+  "Checklist: latency, refresh (manual, scheduled, on update), late data (old rows change: materialized view), cost (a view runs the full query on every read).",
+  "Free Edition: one active pipeline per pipeline type."
+ ],
+ "example_note": "A10 example. Expected behavior from the Databricks docs; view and snapshot results checked on local Apache Spark 4.0, not on Databricks.",
+ "code": "CREATE OR REPLACE MATERIALIZED VIEW gold.daily_sales_by_region\n  SCHEDULE EVERY 1 HOUR\nAS SELECT o.order_date, c.state AS region,\n  COUNT(*) AS order_count, SUM(o.amount) AS total_sales\nFROM silver.orders o JOIN silver.customers c\n  ON o.customer_id = c.customer_id\nGROUP BY o.order_date, c.state;",
+ "misconception": "Streaming does not mean fresher for every case. A streaming table does not go back and fix a day it already processed.",
+ "memory_trick": "Streaming tables read each row once. Materialized views recompute the answer.",
+ "remember": "Ingest append-only data: streaming table. Gold aggregates with late updates: materialized view. Light ad hoc slices: view.",
+ "free_note": "Exam guide Section 3, Data Transformation and Modeling (22 percent): Gold layer objects such as materialized views, views, streaming tables, and tables. Full lesson: lessons/associate-certification/a10-gold-layer-views."
+}
