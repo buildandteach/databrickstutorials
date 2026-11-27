@@ -1,0 +1,63 @@
+{
+ "kind": "lesson",
+ "title": "A11 Data quality checks cheat sheet",
+ "subtitle": "ASSOCIATE EXAM PREP · A11 · SECTION 3 (22%) · DATA QUALITY QUICK REFERENCE",
+ "pages": [
+  {
+   "title": "A11 · Data quality checks",
+   "lede": [
+    "Objective (S3): apply data quality checks and validation rules to ensure reliable Silver and Gold datasets.",
+    "bronze.orders_nov4: 5006 ok, 5007 null customer_id, 5008 amount -15.00, 5009 unknown customer 105, 5010 ok. Only 5006 and 5010 may reach silver.orders."
+   ],
+   "blocks": [
+    {
+     "heading": "1. Quality checklist and the action",
+     "code": "Not-null     customer_id IS NOT NULL         required keys present\nRange        amount >= 0, no future dates    values possible\nReferential  left join, then check the match every key exists\nAction       warn | drop | quarantine | fail  decide before you code",
+     "note": "Warn: soft problem, keep and count. Drop: useless row, no review. Quarantine: someone must fix it. Fail: the batch cannot be trusted."
+    },
+    {
+     "heading": "2. Pipeline expectations (expected, from the docs)",
+     "code": "warn (default)  EXPECT (amount >= 0)                   dp.expect          5 rows written\ndrop            EXPECT (...) ON VIOLATION DROP ROW     dp.expect_or_drop  3 rows (5006 5009 5010)\nfail            EXPECT (...) ON VIOLATION FAIL UPDATE  dp.expect_or_fail  0 rows, rolled back",
+     "note": "5009 slips through drop: no referential rule. No subquery on another table in a constraint. Metrics for warn and drop, none for fail."
+    },
+    {
+     "heading": "3. Filter-or-quarantine snippet (observed, local Spark run)",
+     "code": "checked = (orders.join(customers_with_known_flag, \"customer_id\", \"left\")\n  .withColumn(\"dq_reason\",\n    F.when(F.col(\"customer_id\").isNull(), \"null customer_id\")\n     .when(F.col(\"amount\").isNull() | (F.col(\"amount\") < 0), \"bad amount\")\n     .when(F.col(\"known_customer\").isNull(), \"unknown customer\"))\n  .drop(\"known_customer\"))\nclean = checked.filter(F.col(\"dq_reason\").isNull()).drop(\"dq_reason\")\nquarantine = checked.filter(F.col(\"dq_reason\").isNotNull())\nassert orders.count() == clean.count() + quarantine.count()   # 5 = 2 + 3",
+     "note": "clean 5006, 5010 -> silver.orders (7 rows). quarantine 5007, 5008, 5009 with reason -> silver.orders_quarantine (3 rows)."
+    }
+   ],
+   "disclaimer": [
+    "Notebook + PDF: github.com/buildandteach/databrickstutorials (a11-data-quality-checks) · Previous: A10 gold layer views (a10-gold-layer-views)"
+   ]
+  },
+  {
+   "title": "Constraints, traps, practice",
+   "blocks": [
+    {
+     "heading": "4. Delta table constraints (observed, local Delta 4.0)",
+     "code": "ALTER TABLE silver.orders ALTER COLUMN customer_id SET NOT NULL;\nALTER TABLE silver.orders ADD CONSTRAINT non_negative_amount CHECK (amount >= 0);\n-- INSERT 5008 (-15.00) + 5012 (9.00): [DELTA_VIOLATE_CONSTRAINT_WITH_VALUES], 5012 not written\n-- INSERT 5007 (NULL customer_id):     [DELTA_NOT_NULL_CONSTRAINT_VIOLATED], still 7 rows",
+     "note": "A CHECK behaves like fail, not drop. Primary key and foreign key constraints are informational only, not enforced."
+    },
+    {
+     "heading": "5. The traps",
+     "text": "1) A warn-only check (no ON VIOLATION) while bad rows still reach gold. 2) Failing the whole load over a problem that affects one row. Also: a NULL amount passes neither filter(\"amount >= 0\") nor filter(\"NOT (amount >= 0)\") (observed 0 and 0), so check isNull() first. Free Edition: expectations run in Lakeflow pipelines (serverless pipelines use the Advanced edition, which includes expectations); one active pipeline per pipeline type."
+    },
+    {
+     "heading": "6. Memory trick",
+     "text": "Warn writes. Drop drops. Fail stops."
+    },
+    {
+     "heading": "Exam-style question",
+     "text": "EXPECT (customer_id IN (SELECT customer_id FROM silver.customers)) fails because a constraint cannot reference another table. Fix: left join orders to customers, select c.customer_id AS matched_customer_id, then EXPECT (matched_customer_id IS NOT NULL). Foreign keys are not enforced; Python has the same rule."
+    },
+    {
+     "heading": "Practice challenge",
+     "text": "Q1 DROP ROW pipeline: which bad order still reaches silver? 5009 (customer 105), no referential rule (expected: 5006, 5009, 5010). Q2 CHECK (amount >= 0), one INSERT of 5008 (-15.00) + 5012 (9.00): neither row, the whole insert fails (observed: still 7 rows). Q3 NULL amount 5011 split with filter(\"amount >= 0\") / filter(\"NOT (amount >= 0)\"): neither side (observed 0 and 0); the snippet quarantines it as bad amount."
+    }
+   ],
+   "disclaimer": [
+    "Exam guide (Aug 2026), Section 3. Independent education, not affiliated with Databricks. No exam guarantee. Fictional data. Quarantine code and Delta constraints checked with local Apache Spark 4.0 + open-source Delta Lake, not Databricks; pipeline expectation results are expected, from the Databricks docs."
+   ]
+  }
+ ]
+}

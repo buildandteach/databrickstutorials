@@ -1,0 +1,20 @@
+{
+ "kind": "short",
+ "label": "expectations: warn, drop, fail",
+ "video_url": "Short coming soon on youtube.com/@buildandteach",
+ "kicker": "SHORT  \u00b7  DATA QUALITY CHECKS",
+ "title": "Pipeline expectations: a warn-only check still writes bad rows",
+ "definition": "An expectation is a named data quality check on a pipeline streaming table, materialized view or view: CONSTRAINT name EXPECT (SQL condition). The action decides what happens to a record that fails. With no ON VIOLATION clause the action is warn: the record is written to the target and the violation is counted in the data quality metrics.",
+ "points": [
+  "A11 exam-style question: EXPECT (amount >= 0) with no ON VIOLATION clause. Order 5008 arrives with -15.00. Answer: C, it is written to the table and the violation is counted. It flows on into gold totals.",
+  "ON VIOLATION DROP ROW (Python dp.expect_or_drop): the bad record is dropped before the write and the dropped count is logged.",
+  "ON VIOLATION FAIL UPDATE (dp.expect_or_fail): the update fails and is rolled back. Good rows are not written either, so failing the whole load over one soft problem is the other trap.",
+  "Quarantine when someone must fix bad rows: one reason per row, clean rows to silver.orders, bad rows to silver.orders_quarantine. Local run: 5 in = 2 clean + 3 quarantined."
+ ],
+ "example_note": "A11 example. Expectation results are expected behavior from the Databricks docs (pipelines cannot run locally); the quarantine split was checked on local Apache Spark 4.0, not on Databricks.",
+ "code": "CREATE OR REFRESH STREAMING TABLE silver.orders_validated (\n  CONSTRAINT valid_customer_id\n    EXPECT (customer_id IS NOT NULL) ON VIOLATION DROP ROW,\n  CONSTRAINT valid_amount\n    EXPECT (amount >= 0) ON VIOLATION DROP ROW\n) AS SELECT * FROM STREAM(bronze.orders_raw);",
+ "misconception": "An expectation is not a filter by default. Without ON VIOLATION, bad rows still land in the table.",
+ "memory_trick": "Warn writes. Drop drops. Fail stops.",
+ "remember": "No action means warn, and bad rows still land. DROP ROW skips them. FAIL UPDATE stops the load. Quarantine when someone needs to fix them.",
+ "free_note": "Exam guide Section 3, Data Transformation and Modeling (22 percent): apply data quality checks and validation rules to ensure reliable Silver and Gold datasets. Free Edition: serverless pipelines include expectations; one active pipeline per pipeline type. Full lesson: lessons/associate-certification/a11-data-quality-checks."
+}
